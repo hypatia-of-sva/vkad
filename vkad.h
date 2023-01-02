@@ -1179,6 +1179,32 @@ void vkadLoadVkBaseFunctionsFromDLL () {
         //VK_VERSION_1_1
         vkEnumeratePhysicalDeviceGroups    = (PFN_vkEnumeratePhysicalDeviceGroups) _vkad_load (_vkad_module, "vkEnumeratePhysicalDeviceGroups");
         
+//VkPhysicalDevice dispatched functions
+//VK_VERSION_1_0
+vkGetPhysicalDeviceFeatures = (PFN_vkGetPhysicalDeviceFeatures) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFeatures");
+vkGetPhysicalDeviceFormatProperties = (PFN_vkGetPhysicalDeviceFormatProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFormatProperties");
+vkGetPhysicalDeviceImageFormatProperties = (PFN_vkGetPhysicalDeviceImageFormatProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceImageFormatProperties");
+vkGetPhysicalDeviceProperties = (PFN_vkGetPhysicalDeviceProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceProperties");
+vkGetPhysicalDeviceQueueFamilyProperties = (PFN_vkGetPhysicalDeviceQueueFamilyProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceQueueFamilyProperties");
+vkGetPhysicalDeviceMemoryProperties = (PFN_vkGetPhysicalDeviceMemoryProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceMemoryProperties");
+vkCreateDevice = (PFN_vkCreateDevice) _vkad_load(_vkad_module, "vkCreateDevice");
+vkEnumerateDeviceExtensionProperties = (PFN_vkEnumerateDeviceExtensionProperties) _vkad_load(_vkad_module, "vkEnumerateDeviceExtensionProperties");
+vkEnumerateDeviceLayerProperties = (PFN_vkEnumerateDeviceLayerProperties) _vkad_load(_vkad_module, "vkEnumerateDeviceLayerProperties");
+vkGetPhysicalDeviceSparseImageFormatProperties = (PFN_vkGetPhysicalDeviceSparseImageFormatProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceSparseImageFormatProperties");
+//VK_VERSION_1_1
+vkGetPhysicalDeviceFeatures2 = (PFN_vkGetPhysicalDeviceFeatures2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFeatures2");
+vkGetPhysicalDeviceProperties2 = (PFN_vkGetPhysicalDeviceProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceProperties2");
+vkGetPhysicalDeviceFormatProperties2 = (PFN_vkGetPhysicalDeviceFormatProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFormatProperties2");
+vkGetPhysicalDeviceImageFormatProperties2 = (PFN_vkGetPhysicalDeviceImageFormatProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceImageFormatProperties2");
+vkGetPhysicalDeviceQueueFamilyProperties2 = (PFN_vkGetPhysicalDeviceQueueFamilyProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceQueueFamilyProperties2");
+vkGetPhysicalDeviceMemoryProperties2 = (PFN_vkGetPhysicalDeviceMemoryProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceMemoryProperties2");
+vkGetPhysicalDeviceSparseImageFormatProperties2 = (PFN_vkGetPhysicalDeviceSparseImageFormatProperties2) _vkad_load(_vkad_module, "vkGetPhysicalDeviceSparseImageFormatProperties2");
+vkGetPhysicalDeviceExternalBufferProperties = (PFN_vkGetPhysicalDeviceExternalBufferProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceExternalBufferProperties");
+vkGetPhysicalDeviceExternalFenceProperties = (PFN_vkGetPhysicalDeviceExternalFenceProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceExternalFenceProperties");
+vkGetPhysicalDeviceExternalSemaphoreProperties = (PFN_vkGetPhysicalDeviceExternalSemaphoreProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceExternalSemaphoreProperties");
+//VK_VERSION_1_3
+vkGetPhysicalDeviceToolProperties = (PFN_vkGetPhysicalDeviceToolProperties) _vkad_load(_vkad_module, "vkGetPhysicalDeviceToolProperties");
+        
         
 }
 
@@ -1251,6 +1277,109 @@ void vkadLoadVkExtensionFunctionsFromDLL () {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
         //VK_QNX_screen_surface
         vkCreateScreenSurfaceQNX = (PFN_vkCreateScreenSurfaceQNX) _vkad_load (_vkad_module, "vkCreateScreenSurfaceQNX");
+#endif
+        
+        
+        
+//VkPhysicalDevice dispatched functions
+//VK_KHR_surface
+PFN_vkGetPhysicalDeviceSurfaceSupportKHR                              vkGetPhysicalDeviceSurfaceSupportKHR;
+PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR                         vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
+PFN_vkGetPhysicalDeviceSurfaceFormatsKHR                              vkGetPhysicalDeviceSurfaceFormatsKHR;
+PFN_vkGetPhysicalDeviceSurfacePresentModesKHR                         vkGetPhysicalDeviceSurfacePresentModesKHR;
+//VK_KHR_swapchain
+PFN_vkGetPhysicalDevicePresentRectanglesKHR                           vkGetPhysicalDevicePresentRectanglesKHR;
+//VK_KHR_display
+PFN_vkGetPhysicalDeviceDisplayPropertiesKHR                           vkGetPhysicalDeviceDisplayPropertiesKHR;
+PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR                      vkGetPhysicalDeviceDisplayPlanePropertiesKHR;
+PFN_vkGetDisplayPlaneSupportedDisplaysKHR                             vkGetDisplayPlaneSupportedDisplaysKHR;
+PFN_vkGetDisplayModePropertiesKHR                                     vkGetDisplayModePropertiesKHR;
+PFN_vkCreateDisplayModeKHR                                            vkCreateDisplayModeKHR;
+PFN_vkGetDisplayPlaneCapabilitiesKHR                                  vkGetDisplayPlaneCapabilitiesKHR;
+//VK_KHR_video_queue
+PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR                           vkGetPhysicalDeviceVideoCapabilitiesKHR;
+PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR                       vkGetPhysicalDeviceVideoFormatPropertiesKHR;
+//VK_KHR_get_physical_device_properties2
+PFN_vkGetPhysicalDeviceFeatures2KHR                                   vkGetPhysicalDeviceFeatures2KHR;
+PFN_vkGetPhysicalDeviceProperties2KHR                                 vkGetPhysicalDeviceProperties2KHR;
+PFN_vkGetPhysicalDeviceFormatProperties2KHR                           vkGetPhysicalDeviceFormatProperties2KHR;
+PFN_vkGetPhysicalDeviceImageFormatProperties2KHR                      vkGetPhysicalDeviceImageFormatProperties2KHR;
+PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR                      vkGetPhysicalDeviceQueueFamilyProperties2KHR;
+PFN_vkGetPhysicalDeviceMemoryProperties2KHR                           vkGetPhysicalDeviceMemoryProperties2KHR;
+PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR                vkGetPhysicalDeviceSparseImageFormatProperties2KHR;
+//VK_KHR_external_memory_capabilities
+PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR                    vkGetPhysicalDeviceExternalBufferPropertiesKHR;
+//VK_KHR_external_semaphore_capabilities
+PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR                 vkGetPhysicalDeviceExternalSemaphorePropertiesKHR;
+//VK_KHR_external_fence_capabilities
+PFN_vkGetPhysicalDeviceExternalFencePropertiesKHR                     vkGetPhysicalDeviceExternalFencePropertiesKHR;
+//VK_KHR_performance_query
+PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR   vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR;
+PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR           vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR;
+//VK_KHR_get_surface_capabilities2
+PFN_vkGetPhysicalDeviceSurfaceCapabilities2KHR                        vkGetPhysicalDeviceSurfaceCapabilities2KHR;
+PFN_vkGetPhysicalDeviceSurfaceFormats2KHR                             vkGetPhysicalDeviceSurfaceFormats2KHR;
+//VK_KHR_get_display_properties2
+PFN_vkGetPhysicalDeviceDisplayProperties2KHR                          vkGetPhysicalDeviceDisplayProperties2KHR;
+PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR                     vkGetPhysicalDeviceDisplayPlaneProperties2KHR;
+PFN_vkGetDisplayModeProperties2KHR                                    vkGetDisplayModeProperties2KHR;
+PFN_vkGetDisplayPlaneCapabilities2KHR                                 vkGetDisplayPlaneCapabilities2KHR;
+//VK_KHR_fragment_shading_rate
+PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR                        vkGetPhysicalDeviceFragmentShadingRatesKHR;
+//VK_NV_external_memory_capabilities
+PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV                vkGetPhysicalDeviceExternalImageFormatPropertiesNV;
+//VK_EXT_direct_mode_display
+PFN_vkReleaseDisplayEXT                                               vkReleaseDisplayEXT;
+//VK_EXT_display_surface_counter
+PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT                        vkGetPhysicalDeviceSurfaceCapabilities2EXT;
+//VK_EXT_sample_locations
+PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT                       vkGetPhysicalDeviceMultisamplePropertiesEXT;
+//VK_EXT_calibrated_timestamps
+PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT                    vkGetPhysicalDeviceCalibrateableTimeDomainsEXT;
+//VK_EXT_tooling_info
+PFN_vkGetPhysicalDeviceToolPropertiesEXT                              vkGetPhysicalDeviceToolPropertiesEXT;
+//VK_NV_cooperative_matrix
+PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV                  vkGetPhysicalDeviceCooperativeMatrixPropertiesNV;
+//VK_NV_coverage_reduction_mode
+PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV;
+//VK_EXT_acquire_drm_display
+PFN_vkAcquireDrmDisplayEXT                                            vkAcquireDrmDisplayEXT;
+PFN_vkGetDrmDisplayEXT                                                vkGetDrmDisplayEXT;
+//VK_NV_optical_flow
+PFN_vkGetPhysicalDeviceOpticalFlowImageFormatsNV                      vkGetPhysicalDeviceOpticalFlowImageFormatsNV;
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+//VK_KHR_wayland_surface
+PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR vkGetPhysicalDeviceWaylandPresentationSupportKHR;
+#endif
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+//VK_KHR_win32_surface
+PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
+//VK_EXT_full_screen_exclusive
+PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT     vkGetPhysicalDeviceSurfacePresentModes2EXT;
+//VK_NV_acquire_winrt_display
+PFN_vkAcquireWinrtDisplayNV                        vkAcquireWinrtDisplayNV;
+PFN_vkGetWinrtDisplayNV                            vkGetWinrtDisplayNV;
+#endif
+#ifdef VK_USE_PLATFORM_XCB_KHR
+//VK_KHR_xcb_surface
+PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR vkGetPhysicalDeviceXcbPresentationSupportKHR;
+#endif
+#ifdef VK_USE_PLATFORM_XLIB_KHR
+//VK_KHR_xlib_surface
+PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR vkGetPhysicalDeviceXlibPresentationSupportKHR;
+#endif
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+//VK_EXT_directfb_surface
+PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT vkGetPhysicalDeviceDirectFBPresentationSupportEXT;
+#endif
+#ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
+//VK_EXT_acquire_xlib_display
+PFN_vkAcquireXlibDisplayEXT    vkAcquireXlibDisplayEXT;
+PFN_vkGetRandROutputDisplayEXT vkGetRandROutputDisplayEXT;
+#endif
+#ifdef VK_USE_PLATFORM_SCREEN_QNX
+//VK_QNX_screen_surface
+PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX vkGetPhysicalDeviceScreenPresentationSupportQNX;
 #endif
 }
 
