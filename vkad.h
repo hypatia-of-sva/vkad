@@ -8,62 +8,6 @@
 
 
 
-typedef enum VkResult {
-    VK_SUCCESS = 0,
-    VK_NOT_READY = 1,
-    VK_TIMEOUT = 2,
-    VK_EVENT_SET = 3,
-    VK_EVENT_RESET = 4,
-    VK_INCOMPLETE = 5,
-    VK_ERROR_OUT_OF_HOST_MEMORY = -1,
-    VK_ERROR_OUT_OF_DEVICE_MEMORY = -2,
-    VK_ERROR_INITIALIZATION_FAILED = -3,
-    VK_ERROR_DEVICE_LOST = -4,
-    VK_ERROR_MEMORY_MAP_FAILED = -5,
-    VK_ERROR_LAYER_NOT_PRESENT = -6,
-    VK_ERROR_EXTENSION_NOT_PRESENT = -7,
-    VK_ERROR_FEATURE_NOT_PRESENT = -8,
-    VK_ERROR_INCOMPATIBLE_DRIVER = -9,
-    VK_ERROR_TOO_MANY_OBJECTS = -10,
-    VK_ERROR_FORMAT_NOT_SUPPORTED = -11,
-    VK_ERROR_FRAGMENTED_POOL = -12,
-    VK_ERROR_UNKNOWN = -13,
-    VK_ERROR_OUT_OF_POOL_MEMORY = -1000069000,
-    VK_ERROR_INVALID_EXTERNAL_HANDLE = -1000072003,
-    VK_ERROR_FRAGMENTATION = -1000161000,
-    VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS = -1000257000,
-    VK_PIPELINE_COMPILE_REQUIRED = 1000297000,
-    VK_ERROR_SURFACE_LOST_KHR = -1000000000,
-    VK_ERROR_NATIVE_WINDOW_IN_USE_KHR = -1000000001,
-    VK_SUBOPTIMAL_KHR = 1000001003,
-    VK_ERROR_OUT_OF_DATE_KHR = -1000001004,
-    VK_ERROR_INCOMPATIBLE_DISPLAY_KHR = -1000003001,
-    VK_ERROR_VALIDATION_FAILED_EXT = -1000011001,
-    VK_ERROR_INVALID_SHADER_NV = -1000012000,
-    VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR = -1000023000,
-    VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR = -1000023001,
-    VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR = -1000023002,
-    VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR = -1000023003,
-    VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR = -1000023004,
-    VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR = -1000023005,
-    VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT = -1000158000,
-    VK_ERROR_NOT_PERMITTED_KHR = -1000174001,
-    VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT = -1000255000,
-    VK_THREAD_IDLE_KHR = 1000268000,
-    VK_THREAD_DONE_KHR = 1000268001,
-    VK_OPERATION_DEFERRED_KHR = 1000268002,
-    VK_OPERATION_NOT_DEFERRED_KHR = 1000268003,
-    VK_ERROR_COMPRESSION_EXHAUSTED_EXT = -1000338000,
-    VK_ERROR_OUT_OF_POOL_MEMORY_KHR = VK_ERROR_OUT_OF_POOL_MEMORY,
-    VK_ERROR_INVALID_EXTERNAL_HANDLE_KHR = VK_ERROR_INVALID_EXTERNAL_HANDLE,
-    VK_ERROR_FRAGMENTATION_EXT = VK_ERROR_FRAGMENTATION,
-    VK_ERROR_NOT_PERMITTED_EXT = VK_ERROR_NOT_PERMITTED_KHR,
-    VK_ERROR_INVALID_DEVICE_ADDRESS_EXT = VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS,
-    VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS_KHR = VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS,
-    VK_PIPELINE_COMPILE_REQUIRED_EXT = VK_PIPELINE_COMPILE_REQUIRED,
-    VK_ERROR_PIPELINE_COMPILE_REQUIRED_EXT = VK_PIPELINE_COMPILE_REQUIRED,
-    VK_RESULT_MAX_ENUM = 0x7FFFFFFF
-} VkResult
 
 
 //globally dispatched functions
@@ -900,96 +844,96 @@ PFN_vkCmdDrawMeshTasksIndirectCountEXT vkCmdDrawMeshTasksIndirectCountEXT;
 //VK_NV_fill_rectangle
 //VK_NV_shader_sm_builtins
 //VK_EXT_post_depth_coverage
-#define VK_EXT_descriptor_indexing 1
-#define VK_EXT_shader_viewport_index_layer 1
-#define VK_NV_representative_fragment_test 1
-#define VK_EXT_filter_cubic 1
-#define VK_QCOM_render_pass_shader_resolve 1
-#define VK_EXT_global_priority 1
-#define VK_AMD_pipeline_compiler_control 1
-#define VK_AMD_shader_core_properties 1
-#define VK_AMD_memory_overallocation_behavior 1
-#define VK_EXT_vertex_attribute_divisor 1
-#define VK_EXT_pipeline_creation_feedback 1
-#define VK_NV_shader_subgroup_partitioned 1
-#define VK_NV_compute_shader_derivatives 1
-#define VK_NV_fragment_shader_barycentric 1
-#define VK_NV_shader_image_footprint 1
-#define VK_INTEL_shader_integer_functions2 1
-#define VK_EXT_pci_bus_info 1
-#define VK_EXT_fragment_density_map 1
-#define VK_EXT_scalar_block_layout 1
-#define VK_GOOGLE_hlsl_functionality1 1
-#define VK_GOOGLE_decorate_string 1
-#define VK_EXT_subgroup_size_control 1
-#define VK_AMD_shader_core_properties2 1
-#define VK_AMD_device_coherent_memory 1
-#define VK_EXT_shader_image_atomic_int64 1
-#define VK_EXT_memory_budget 1
-#define VK_EXT_memory_priority 1
-#define VK_NV_dedicated_allocation_image_aliasing 1
-#define VK_EXT_separate_stencil_usage 1
-#define VK_EXT_validation_features 1
-#define VK_EXT_fragment_shader_interlock 1
-#define VK_EXT_ycbcr_image_arrays 1
-#define VK_EXT_provoking_vertex 1
-#define VK_EXT_shader_atomic_float 1
-#define VK_EXT_index_type_uint8 1
-#define VK_EXT_shader_atomic_float2 1
-#define VK_EXT_surface_maintenance1 1
-#define VK_EXT_shader_demote_to_helper_invocation 1
-#define VK_NV_inherited_viewport_scissor 1
-#define VK_EXT_texel_buffer_alignment 1
-#define VK_QCOM_render_pass_transform 1
-#define VK_EXT_device_memory_report 1
-#define VK_EXT_robustness2 1
-#define VK_EXT_custom_border_color 1
-#define VK_GOOGLE_user_type 1
-#define VK_NV_present_barrier 1
-#define VK_EXT_pipeline_creation_cache_control 1
-#define VK_NV_device_diagnostics_config 1
-#define VK_QCOM_render_pass_store_ops 1
-#define VK_EXT_graphics_pipeline_library 1
-#define VK_AMD_shader_early_and_late_fragment_tests 1
-#define VK_NV_ray_tracing_motion_blur 1
-#define VK_EXT_ycbcr_2plane_444_formats 1
-#define VK_EXT_fragment_density_map2 1
-#define VK_QCOM_rotated_copy_commands 1
-#define VK_EXT_image_robustness 1
-#define VK_EXT_attachment_feedback_loop_layout 1
-#define VK_EXT_4444_formats 1
-#define VK_ARM_rasterization_order_attachment_access 1
-#define VK_EXT_rgba10x6_formats 1
-#define VK_VALVE_mutable_descriptor_type 1
-#define VK_EXT_physical_device_drm 1
-#define VK_EXT_device_address_binding_report 1
-#define VK_EXT_depth_clip_control 1
-#define VK_EXT_primitive_topology_list_restart 1
-#define VK_EXT_multisampled_render_to_single_sampled 1
-#define VK_EXT_primitives_generated_query 1
-#define VK_EXT_global_priority_query 1
-#define VK_EXT_image_view_min_lod 1
-#define VK_EXT_image_2d_view_of_3d 1
-#define VK_EXT_load_store_op_none 1
-#define VK_EXT_border_color_swizzle 1
-#define VK_EXT_depth_clamp_zero_one 1
-#define VK_EXT_non_seamless_cube_map 1
-#define VK_QCOM_fragment_density_map_offset 1
-#define VK_NV_linear_color_attachment 1
-#define VK_GOOGLE_surfaceless_query 1
-#define VK_EXT_image_compression_control_swapchain 1
-#define VK_QCOM_image_processing 1
-#define VK_EXT_subpass_merge_feedback 1
-#define VK_LUNARG_direct_driver_loading 1
-#define VK_EXT_rasterization_order_attachment_access 1
-#define VK_EXT_legacy_dithering 1
-#define VK_EXT_pipeline_protected_access 1
-#define VK_SEC_amigo_profiling 1
-#define VK_QCOM_multiview_per_view_viewports 1
-#define VK_NV_ray_tracing_invocation_reorder 1
-#define VK_EXT_mutable_descriptor_type 1
-#define VK_ARM_shader_core_builtins 1
-#define VK_KHR_ray_query 1
+//VK_EXT_descriptor_indexing
+//VK_EXT_shader_viewport_index_layer
+//VK_NV_representative_fragment_test
+//VK_EXT_filter_cubic
+//VK_QCOM_render_pass_shader_resolve
+//VK_EXT_global_priority
+//VK_AMD_pipeline_compiler_control
+//VK_AMD_shader_core_properties
+//VK_AMD_memory_overallocation_behavior
+//VK_EXT_vertex_attribute_divisor
+//VK_EXT_pipeline_creation_feedback
+//VK_NV_shader_subgroup_partitioned
+//VK_NV_compute_shader_derivatives
+//VK_NV_fragment_shader_barycentric
+//VK_NV_shader_image_footprint
+//VK_INTEL_shader_integer_functions2
+//VK_EXT_pci_bus_info
+//VK_EXT_fragment_density_map
+//VK_EXT_scalar_block_layout
+//VK_GOOGLE_hlsl_functionality1
+//VK_GOOGLE_decorate_string
+//VK_EXT_subgroup_size_control
+//VK_AMD_shader_core_properties2
+//VK_AMD_device_coherent_memory
+//VK_EXT_shader_image_atomic_int64
+//VK_EXT_memory_budget
+//VK_EXT_memory_priority
+//VK_NV_dedicated_allocation_image_aliasing 1
+//VK_EXT_separate_stencil_usage
+//VK_EXT_validation_features
+//VK_EXT_fragment_shader_interlock
+//VK_EXT_ycbcr_image_arrays
+//VK_EXT_provoking_vertex
+//VK_EXT_shader_atomic_float
+//VK_EXT_index_type_uint8
+//VK_EXT_shader_atomic_float2
+//VK_EXT_surface_maintenance1
+//VK_EXT_shader_demote_to_helper_invocation
+//VK_NV_inherited_viewport_scissor
+//VK_EXT_texel_buffer_alignment
+//VK_QCOM_render_pass_transform
+//VK_EXT_device_memory_report
+//VK_EXT_robustness2
+//VK_EXT_custom_border_color
+//VK_GOOGLE_user_type
+//VK_NV_present_barrier
+//VK_EXT_pipeline_creation_cache_control
+//VK_NV_device_diagnostics_config
+//VK_QCOM_render_pass_store_ops
+//VK_EXT_graphics_pipeline_library
+//VK_AMD_shader_early_and_late_fragment_tests
+//VK_NV_ray_tracing_motion_blur
+//VK_EXT_ycbcr_2plane_444_formats
+//VK_EXT_fragment_density_map2
+//VK_QCOM_rotated_copy_commands
+//VK_EXT_image_robustness
+//VK_EXT_attachment_feedback_loop_layout
+//VK_EXT_4444_formats
+//VK_ARM_rasterization_order_attachment_access
+//VK_EXT_rgba10x6_formats
+//VK_VALVE_mutable_descriptor_type
+//VK_EXT_physical_device_drm
+//VK_EXT_device_address_binding_report
+//VK_EXT_depth_clip_control
+//VK_EXT_primitive_topology_list_restart
+//VK_EXT_multisampled_render_to_single_sampled
+//VK_EXT_primitives_generated_query
+//VK_EXT_global_priority_query
+//VK_EXT_image_view_min_lod
+//VK_EXT_image_2d_view_of_3d
+//VK_EXT_load_store_op_none
+//VK_EXT_border_color_swizzle
+//VK_EXT_depth_clamp_zero_one
+//VK_EXT_non_seamless_cube_map
+//VK_QCOM_fragment_density_map_offset
+//VK_NV_linear_color_attachment
+//VK_GOOGLE_surfaceless_query
+//VK_EXT_image_compression_control_swapchain
+//VK_QCOM_image_processing
+//VK_EXT_subpass_merge_feedback
+//VK_LUNARG_direct_driver_loading
+//VK_EXT_rasterization_order_attachment_access
+//VK_EXT_legacy_dithering
+//VK_EXT_pipeline_protected_access
+//VK_SEC_amigo_profiling
+//VK_QCOM_multiview_per_view_viewports
+//VK_NV_ray_tracing_invocation_reorder
+//VK_EXT_mutable_descriptor_type
+//VK_ARM_shader_core_builtins
+//VK_KHR_ray_query
 
 
 
@@ -997,6 +941,62 @@ PFN_vkCmdDrawMeshTasksIndirectCountEXT vkCmdDrawMeshTasksIndirectCountEXT;
 
 
 
+typedef enum VkResult {
+    VK_SUCCESS = 0,
+    VK_NOT_READY = 1,
+    VK_TIMEOUT = 2,
+    VK_EVENT_SET = 3,
+    VK_EVENT_RESET = 4,
+    VK_INCOMPLETE = 5,
+    VK_ERROR_OUT_OF_HOST_MEMORY = -1,
+    VK_ERROR_OUT_OF_DEVICE_MEMORY = -2,
+    VK_ERROR_INITIALIZATION_FAILED = -3,
+    VK_ERROR_DEVICE_LOST = -4,
+    VK_ERROR_MEMORY_MAP_FAILED = -5,
+    VK_ERROR_LAYER_NOT_PRESENT = -6,
+    VK_ERROR_EXTENSION_NOT_PRESENT = -7,
+    VK_ERROR_FEATURE_NOT_PRESENT = -8,
+    VK_ERROR_INCOMPATIBLE_DRIVER = -9,
+    VK_ERROR_TOO_MANY_OBJECTS = -10,
+    VK_ERROR_FORMAT_NOT_SUPPORTED = -11,
+    VK_ERROR_FRAGMENTED_POOL = -12,
+    VK_ERROR_UNKNOWN = -13,
+    VK_ERROR_OUT_OF_POOL_MEMORY = -1000069000,
+    VK_ERROR_INVALID_EXTERNAL_HANDLE = -1000072003,
+    VK_ERROR_FRAGMENTATION = -1000161000,
+    VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS = -1000257000,
+    VK_PIPELINE_COMPILE_REQUIRED = 1000297000,
+    VK_ERROR_SURFACE_LOST_KHR = -1000000000,
+    VK_ERROR_NATIVE_WINDOW_IN_USE_KHR = -1000000001,
+    VK_SUBOPTIMAL_KHR = 1000001003,
+    VK_ERROR_OUT_OF_DATE_KHR = -1000001004,
+    VK_ERROR_INCOMPATIBLE_DISPLAY_KHR = -1000003001,
+    VK_ERROR_VALIDATION_FAILED_EXT = -1000011001,
+    VK_ERROR_INVALID_SHADER_NV = -1000012000,
+    VK_ERROR_IMAGE_USAGE_NOT_SUPPORTED_KHR = -1000023000,
+    VK_ERROR_VIDEO_PICTURE_LAYOUT_NOT_SUPPORTED_KHR = -1000023001,
+    VK_ERROR_VIDEO_PROFILE_OPERATION_NOT_SUPPORTED_KHR = -1000023002,
+    VK_ERROR_VIDEO_PROFILE_FORMAT_NOT_SUPPORTED_KHR = -1000023003,
+    VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR = -1000023004,
+    VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR = -1000023005,
+    VK_ERROR_INVALID_DRM_FORMAT_MODIFIER_PLANE_LAYOUT_EXT = -1000158000,
+    VK_ERROR_NOT_PERMITTED_KHR = -1000174001,
+    VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT = -1000255000,
+    VK_THREAD_IDLE_KHR = 1000268000,
+    VK_THREAD_DONE_KHR = 1000268001,
+    VK_OPERATION_DEFERRED_KHR = 1000268002,
+    VK_OPERATION_NOT_DEFERRED_KHR = 1000268003,
+    VK_ERROR_COMPRESSION_EXHAUSTED_EXT = -1000338000,
+    VK_ERROR_OUT_OF_POOL_MEMORY_KHR = VK_ERROR_OUT_OF_POOL_MEMORY,
+    VK_ERROR_INVALID_EXTERNAL_HANDLE_KHR = VK_ERROR_INVALID_EXTERNAL_HANDLE,
+    VK_ERROR_FRAGMENTATION_EXT = VK_ERROR_FRAGMENTATION,
+    VK_ERROR_NOT_PERMITTED_EXT = VK_ERROR_NOT_PERMITTED_KHR,
+    VK_ERROR_INVALID_DEVICE_ADDRESS_EXT = VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS,
+    VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS_KHR = VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS,
+    VK_PIPELINE_COMPILE_REQUIRED_EXT = VK_PIPELINE_COMPILE_REQUIRED,
+    VK_ERROR_PIPELINE_COMPILE_REQUIRED_EXT = VK_PIPELINE_COMPILE_REQUIRED,
+    VK_RESULT_MAX_ENUM = 0x7FFFFFFF
+} VkResult
 
 
 
