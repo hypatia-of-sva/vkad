@@ -1153,6 +1153,9 @@ void _vkad_unload_lib () {
 }
 
 
+void vkadLoadInitialLoaderFromPointer(PFN_vkGetInstanceProcAddr initial_loader) {
+    vkGetInstanceProcAddr = initial_loader;
+}
 
 void vkadLoadInitialLoaderFromDLL () {
         vkGetInstanceProcAddr = _vkad_initalloaderDLL();
@@ -1169,98 +1172,102 @@ void vkadLoadVkGlobalFunctionsFromDLL () {
 
 
 void vkadLoadVkBaseFunctionsFromDLL () {
+        //VkInstance dispatched functions
+        //VK_VERSION_1_0
+        vkDestroyInstance                  = (PFN_vkDestroyInstance) _vkad_load (_vkad_module, "PFN_vkDestroyInstance");
+        vkEnumeratePhysicalDevices         = (PFN_vkEnumeratePhysicalDevices) _vkad_load (_vkad_module, "PFN_vkEnumeratePhysicalDevices");
+        //VK_VERSION_1_1
+        vkEnumeratePhysicalDeviceGroups    = (PFN_vkEnumeratePhysicalDeviceGroups) _vkad_load (_vkad_module, "vkEnumeratePhysicalDeviceGroups");
+        
+        
+}
 
-//VkInstance dispatched functions
-//VK_VERSION_1_0
-vkDestroyInstance = (PFN_vkDestroyInstance                      )                 _vkad_load(_vkad_module, "PFN_vkDestroyInstance");
-vkEnumeratePhysicalDevices = (PFN_vkEnumeratePhysicalDevices             )                _vkad_load(_vkad_module, "PFN_vkEnumeratePhysicalDevices");
-//VK_VERSION_1_1
-vkEnumeratePhysicalDeviceGroups = (PFN_vkEnumeratePhysicalDeviceGroups) _vkad_load (_vkad_module, "vkEnumeratePhysicalDeviceGroups");
-//VK_KHR_surface
-vkDestroySurfaceKHR = (PFN_vkDestroySurfaceKHR) _vkad_load (_vkad_module, "vkDestroySurfaceKHR");
-//VK_KHR_display
-vkCreateDisplayPlaneSurfaceKHR = (PFN_vkCreateDisplayPlaneSurfaceKHR) _vkad_load (_vkad_module, "vkCreateDisplayPlaneSurfaceKHR");
-//VK_KHR_device_group_creation
-vkEnumeratePhysicalDeviceGroupsKHR = (PFN_vkEnumeratePhysicalDeviceGroupsKHR) _vkad_load (_vkad_module, "vkEnumeratePhysicalDeviceGroupsKHR");
-//VK_EXT_debug_report
-vkCreateDebugReportCallbackEXT = (PFN_vkCreateDebugReportCallbackEXT) _vkad_load (_vkad_module, "vkCreateDebugReportCallbackEXT");        
-vkDestroyDebugReportCallbackEXT = (PFN_vkDestroyDebugReportCallbackEXT) _vkad_load (_vkad_module, "vkDestroyDebugReportCallbackEXT");        
-vkDebugReportMessageEXT = (PFN_vkDebugReportMessageEXT) _vkad_load (_vkad_module, "vkDebugReportMessageEXT");     
-//VK_EXT_debug_utils
-vkCreateDebugUtilsMessengerEXT = (PFN_vkCreateDebugUtilsMessengerEXT) _vkad_load(_vkad_module, "vkCreateDebugUtilsMessengerEXT");
-vkDestroyDebugUtilsMessengerEXT = (PFN_vkDestroyDebugUtilsMessengerEXT) _vkad_load(_vkad_module, "vkDestroyDebugUtilsMessengerEXT");
-vkSubmitDebugUtilsMessageEXT = (PFN_vkSubmitDebugUtilsMessageEXT) _vkad_load(_vkad_module, "vkSubmitDebugUtilsMessageEXT");
-//VK_EXT_headless_surface
-vkCreateHeadlessSurfaceEXT = (PFN_vkCreateHeadlessSurfaceEXT) _vkad_load(_vkad_module, "vkCreateHeadlessSurfaceEXT");
+void vkadLoadVkExtensionFunctionsFromDLL () {
+        //VkInstance dispatched functions
+        //VK_KHR_surface
+        vkDestroySurfaceKHR                = (PFN_vkDestroySurfaceKHR) _vkad_load (_vkad_module, "vkDestroySurfaceKHR");
+        //VK_KHR_display
+        vkCreateDisplayPlaneSurfaceKHR     = (PFN_vkCreateDisplayPlaneSurfaceKHR) _vkad_load (_vkad_module, "vkCreateDisplayPlaneSurfaceKHR");
+        //VK_KHR_device_group_creation
+        vkEnumeratePhysicalDeviceGroupsKHR = (PFN_vkEnumeratePhysicalDeviceGroupsKHR) _vkad_load (_vkad_module, "vkEnumeratePhysicalDeviceGroupsKHR");
+        //VK_EXT_debug_report
+        vkCreateDebugReportCallbackEXT     = (PFN_vkCreateDebugReportCallbackEXT) _vkad_load (_vkad_module, "vkCreateDebugReportCallbackEXT");
+        vkDestroyDebugReportCallbackEXT    = (PFN_vkDestroyDebugReportCallbackEXT) _vkad_load (_vkad_module, "vkDestroyDebugReportCallbackEXT");
+        vkDebugReportMessageEXT            = (PFN_vkDebugReportMessageEXT) _vkad_load (_vkad_module, "vkDebugReportMessageEXT");
+        //VK_EXT_debug_utils
+        vkCreateDebugUtilsMessengerEXT     = (PFN_vkCreateDebugUtilsMessengerEXT) _vkad_load (_vkad_module, "vkCreateDebugUtilsMessengerEXT");
+        vkDestroyDebugUtilsMessengerEXT    = (PFN_vkDestroyDebugUtilsMessengerEXT) _vkad_load (_vkad_module, "vkDestroyDebugUtilsMessengerEXT");
+        vkSubmitDebugUtilsMessageEXT       = (PFN_vkSubmitDebugUtilsMessageEXT) _vkad_load (_vkad_module, "vkSubmitDebugUtilsMessageEXT");
+        //VK_EXT_headless_surface
+        vkCreateHeadlessSurfaceEXT         = (PFN_vkCreateHeadlessSurfaceEXT) _vkad_load (_vkad_module, "vkCreateHeadlessSurfaceEXT");
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-//VK_KHR_android_surface
-vkCreateAndroidSurfaceKHR = (PFN_vkCreateAndroidSurfaceKHR) _vkad_load(_vkad_module, "vkCreateAndroidSurfaceKHR");
+        //VK_KHR_android_surface
+        vkCreateAndroidSurfaceKHR = (PFN_vkCreateAndroidSurfaceKHR) _vkad_load (_vkad_module, "vkCreateAndroidSurfaceKHR");
 #endif
 #ifdef VK_USE_PLATFORM_FUCHSIA
-//VK_FUCHSIA_imagepipe_surface
-vkCreateImagePipeSurfaceFUCHSIA = (PFN_vkCreateImagePipeSurfaceFUCHSIA) _vkad_load(_vkad_module, "vkCreateImagePipeSurfaceFUCHSIA");
+        //VK_FUCHSIA_imagepipe_surface
+        vkCreateImagePipeSurfaceFUCHSIA = (PFN_vkCreateImagePipeSurfaceFUCHSIA) _vkad_load (_vkad_module, "vkCreateImagePipeSurfaceFUCHSIA");
 #endif
 #ifdef VK_USE_PLATFORM_IOS_MVK
-//VK_MVK_ios_surface
-vkCreateIOSSurfaceMVK = (PFN_vkCreateIOSSurfaceMVK) _vkad_load(_vkad_module, "vkCreateIOSSurfaceMVK");
+        //VK_MVK_ios_surface
+        vkCreateIOSSurfaceMVK = (PFN_vkCreateIOSSurfaceMVK) _vkad_load (_vkad_module, "vkCreateIOSSurfaceMVK");
 #endif
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-//VK_MVK_macos_surface
-vkCreateMacOSSurfaceMVK = (PFN_vkCreateMacOSSurfaceMVK) _vkad_load(_vkad_module, "vkCreateMacOSSurfaceMVK");
+        //VK_MVK_macos_surface
+        vkCreateMacOSSurfaceMVK = (PFN_vkCreateMacOSSurfaceMVK) _vkad_load (_vkad_module, "vkCreateMacOSSurfaceMVK");
 #endif
 #ifdef VK_USE_PLATFORM_METAL_EXT
-//VK_EXT_metal_surface
-vkCreateMetalSurfaceEXT = (PFN_vkCreateMetalSurfaceEXT) _vkad_load(_vkad_module, "vkCreateMetalSurfaceEXT");
+        //VK_EXT_metal_surface
+        vkCreateMetalSurfaceEXT = (PFN_vkCreateMetalSurfaceEXT) _vkad_load (_vkad_module, "vkCreateMetalSurfaceEXT");
 #endif
 #ifdef VK_USE_PLATFORM_VI_NN
-//VK_NN_vi_surface
-vkCreateViSurfaceNN = (PFN_vkCreateViSurfaceNN) _vkad_load(_vkad_module, "vkCreateViSurfaceNN");
+        //VK_NN_vi_surface
+        vkCreateViSurfaceNN = (PFN_vkCreateViSurfaceNN) _vkad_load (_vkad_module, "vkCreateViSurfaceNN");
 #endif
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-//VK_KHR_wayland_surface
-vkCreateWaylandSurfaceKHR = (PFN_vkCreateWaylandSurfaceKHR) _vkad_load(_vkad_module, "vkCreateWaylandSurfaceKHR");
+        //VK_KHR_wayland_surface
+        vkCreateWaylandSurfaceKHR = (PFN_vkCreateWaylandSurfaceKHR) _vkad_load (_vkad_module, "vkCreateWaylandSurfaceKHR");
 #endif
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-//VK_KHR_win32_surface
-vkCreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR) _vkad_load(_vkad_module, "vkCreateWin32SurfaceKHR");
+        //VK_KHR_win32_surface
+        vkCreateWin32SurfaceKHR = (PFN_vkCreateWin32SurfaceKHR) _vkad_load (_vkad_module, "vkCreateWin32SurfaceKHR");
 #endif
 #ifdef VK_USE_PLATFORM_XCB_KHR
-//VK_KHR_xcb_surface
-vkCreateXcbSurfaceKHR = (PFN_vkCreateXcbSurfaceKHR) _vkad_load(_vkad_module, "vkCreateXcbSurfaceKHR");
+        //VK_KHR_xcb_surface
+        vkCreateXcbSurfaceKHR = (PFN_vkCreateXcbSurfaceKHR) _vkad_load (_vkad_module, "vkCreateXcbSurfaceKHR");
 #endif
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-//VK_KHR_xlib_surface
-vkCreateXlibSurfaceKHR = (PFN_vkCreateXlibSurfaceKHR) _vkad_load(_vkad_module, "vkCreateXlibSurfaceKHR");
+        //VK_KHR_xlib_surface
+        vkCreateXlibSurfaceKHR = (PFN_vkCreateXlibSurfaceKHR) _vkad_load (_vkad_module, "vkCreateXlibSurfaceKHR");
 #endif
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-//VK_EXT_directfb_surface
-vkCreateDirectFBSurfaceEXT = (PFN_vkCreateDirectFBSurfaceEXT) _vkad_load(_vkad_module, "vkCreateDirectFBSurfaceEXT");
+        //VK_EXT_directfb_surface
+        vkCreateDirectFBSurfaceEXT = (PFN_vkCreateDirectFBSurfaceEXT) _vkad_load (_vkad_module, "vkCreateDirectFBSurfaceEXT");
 #endif
 #ifdef VK_USE_PLATFORM_GGP
-//VK_GGP_stream_descriptor_surface
-vkCreateStreamDescriptorSurfaceGGP = (PFN_vkCreateStreamDescriptorSurfaceGGP) _vkad_load(_vkad_module, "vkCreateStreamDescriptorSurfaceGGP");
+        //VK_GGP_stream_descriptor_surface
+        vkCreateStreamDescriptorSurfaceGGP = (PFN_vkCreateStreamDescriptorSurfaceGGP) _vkad_load (_vkad_module, "vkCreateStreamDescriptorSurfaceGGP");
 #endif
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-//VK_QNX_screen_surface
-vkCreateScreenSurfaceQNX = (PFN_vkCreateScreenSurfaceQNX) _vkad_load(_vkad_module, "vkCreateScreenSurfaceQNX");
+        //VK_QNX_screen_surface
+        vkCreateScreenSurfaceQNX = (PFN_vkCreateScreenSurfaceQNX) _vkad_load (_vkad_module, "vkCreateScreenSurfaceQNX");
 #endif
-
 }
 
-void vkadLoadVkExtensionFunctionsFromDLL () { }
 
-
-void vkadLoadVkGlobalFunctionsFromInitialLoader (PFN_vkGetInstanceProcAddr initial_loader) {
+void vkadLoadVkGlobalFunctionsFromInitialLoader () {
         //VK_VERSION_1_0
-        vkEnumerateInstanceExtensionProperties = (PFN_vkEnumerateInstanceExtensionProperties) initial_loader (NULL, "vkEnumerateInstanceExtensionProperties");
-        vkEnumerateInstanceLayerProperties     = (PFN_vkEnumerateInstanceLayerProperties) initial_loader (NULL, "vkEnumerateInstanceLayerProperties");
-        vkCreateInstance                       = (PFN_vkCreateInstance) initial_loader (NULL, "vkCreateInstance");
+        vkEnumerateInstanceExtensionProperties = (PFN_vkEnumerateInstanceExtensionProperties) vkGetInstanceProcAddr (NULL, "vkEnumerateInstanceExtensionProperties");
+        vkEnumerateInstanceLayerProperties     = (PFN_vkEnumerateInstanceLayerProperties) vkGetInstanceProcAddr (NULL, "vkEnumerateInstanceLayerProperties");
+        vkCreateInstance                       = (PFN_vkCreateInstance) vkGetInstanceProcAddr (NULL, "vkCreateInstance");
         //VK_VERSION_1_1
-        vkEnumerateInstanceVersion             = (PFN_vkEnumerateInstanceVersion) initial_loader (NULL, "vkEnumerateInstanceVersion");
+        vkEnumerateInstanceVersion             = (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr (NULL, "vkEnumerateInstanceVersion");
 }
 
 
-void vkadLoadVkBaseFunctionsFromInstanceLoader (VkInstance instance) { }
+void vkadLoadVkBaseFunctionsFromInstanceLoader (VkInstance instance) {
+    
+}
 
 
 void vkadUpdateVkDeviceBaseFunctionsFromDeviceLoader (VkDevice device) { }
@@ -1275,3 +1282,6 @@ void vkadLoadVk (PFN_vkGetInstanceProcAddr initial_loader) { }
 void vkadLoadVkInstanceFunctions (VkInstance instance) { }
 
 void vkadUpdateVkDeviceFunctions (VkDevice device) { }
+
+
+
