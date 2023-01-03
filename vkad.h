@@ -1283,19 +1283,19 @@ void vkadLoadVkExtensionFunctionsFromDLL () {
         
 //VkPhysicalDevice dispatched functions
 //VK_KHR_surface
-PFN_vkGetPhysicalDeviceSurfaceSupportKHR                              vkGetPhysicalDeviceSurfaceSupportKHR;
-PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR                         vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
-PFN_vkGetPhysicalDeviceSurfaceFormatsKHR                              vkGetPhysicalDeviceSurfaceFormatsKHR;
-PFN_vkGetPhysicalDeviceSurfacePresentModesKHR                         vkGetPhysicalDeviceSurfacePresentModesKHR;
+vkGetPhysicalDeviceSurfaceSupportKHR = (PFN_vkGetPhysicalDeviceSurfaceSupportKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceSurfaceSupportKHR");
+vkGetPhysicalDeviceSurfaceCapabilitiesKHR = (PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceSurfaceCapabilitiesKHR");        
+vkGetPhysicalDeviceSurfaceFormatsKHR = (PFN_vkGetPhysicalDeviceSurfaceFormatsKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceSurfaceFormatsKHR");        
+vkGetPhysicalDeviceSurfacePresentModesKHR = (PFN_vkGetPhysicalDeviceSurfacePresentModesKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceSurfacePresentModesKHR");        
 //VK_KHR_swapchain
-PFN_vkGetPhysicalDevicePresentRectanglesKHR                           vkGetPhysicalDevicePresentRectanglesKHR;
+vkGetPhysicalDevicePresentRectanglesKHR = (PFN_vkGetPhysicalDevicePresentRectanglesKHR) _vkad_load (_vkad_module, "vkGetPhysicalDevicePresentRectanglesKHR"); 
 //VK_KHR_display
-PFN_vkGetPhysicalDeviceDisplayPropertiesKHR                           vkGetPhysicalDeviceDisplayPropertiesKHR;
-PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR                      vkGetPhysicalDeviceDisplayPlanePropertiesKHR;
-PFN_vkGetDisplayPlaneSupportedDisplaysKHR                             vkGetDisplayPlaneSupportedDisplaysKHR;
-PFN_vkGetDisplayModePropertiesKHR                                     vkGetDisplayModePropertiesKHR;
-PFN_vkCreateDisplayModeKHR                                            vkCreateDisplayModeKHR;
-PFN_vkGetDisplayPlaneCapabilitiesKHR                                  vkGetDisplayPlaneCapabilitiesKHR;
+vkGetPhysicalDeviceDisplayPropertiesKHR = (PFN_vkGetPhysicalDeviceDisplayPropertiesKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceDisplayPropertiesKHR");
+vkGetPhysicalDeviceDisplayPlanePropertiesKHR = (PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR) _vkad_load (_vkad_module, "vkGetPhysicalDeviceDisplayPlanePropertiesKHR");        
+vkGetDisplayPlaneSupportedDisplaysKHR = (PFN_vkGetDisplayPlaneSupportedDisplaysKHR) _vkad_load (_vkad_module, "vkGetDisplayPlaneSupportedDisplaysKHR");        
+vkGetDisplayModePropertiesKHR = (PFN_vkGetDisplayModePropertiesKHR) _vkad_load (_vkad_module, "vkGetDisplayModePropertiesKHR");        
+vkCreateDisplayModeKHR = (PFN_vkCreateDisplayModeKHR) _vkad_load (_vkad_module, "vkCreateDisplayModeKHR");        
+vkGetDisplayPlaneCapabilitiesKHR = (PFN_vkGetDisplayPlaneCapabilitiesKHR) _vkad_load (_vkad_module, "vkGetDisplayPlaneCapabilitiesKHR");        
 //VK_KHR_video_queue
 PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR                           vkGetPhysicalDeviceVideoCapabilitiesKHR;
 PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR                       vkGetPhysicalDeviceVideoFormatPropertiesKHR;
