@@ -1297,20 +1297,20 @@ vkGetDisplayModePropertiesKHR = (PFN_vkGetDisplayModePropertiesKHR) _vkad_load (
 vkCreateDisplayModeKHR = (PFN_vkCreateDisplayModeKHR) _vkad_load (_vkad_module, "vkCreateDisplayModeKHR");        
 vkGetDisplayPlaneCapabilitiesKHR = (PFN_vkGetDisplayPlaneCapabilitiesKHR) _vkad_load (_vkad_module, "vkGetDisplayPlaneCapabilitiesKHR");        
 //VK_KHR_video_queue
-PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR                           vkGetPhysicalDeviceVideoCapabilitiesKHR;
-PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR                       vkGetPhysicalDeviceVideoFormatPropertiesKHR;
+vkGetPhysicalDeviceVideoCapabilitiesKHR = (PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceVideoCapabilitiesKHR");
+vkGetPhysicalDeviceVideoFormatPropertiesKHR = (PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceVideoFormatPropertiesKHR");
 //VK_KHR_get_physical_device_properties2
-PFN_vkGetPhysicalDeviceFeatures2KHR                                   vkGetPhysicalDeviceFeatures2KHR;
-PFN_vkGetPhysicalDeviceProperties2KHR                                 vkGetPhysicalDeviceProperties2KHR;
-PFN_vkGetPhysicalDeviceFormatProperties2KHR                           vkGetPhysicalDeviceFormatProperties2KHR;
-PFN_vkGetPhysicalDeviceImageFormatProperties2KHR                      vkGetPhysicalDeviceImageFormatProperties2KHR;
-PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR                      vkGetPhysicalDeviceQueueFamilyProperties2KHR;
-PFN_vkGetPhysicalDeviceMemoryProperties2KHR                           vkGetPhysicalDeviceMemoryProperties2KHR;
-PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR                vkGetPhysicalDeviceSparseImageFormatProperties2KHR;
+vkGetPhysicalDeviceFeatures2KHR = (PFN_vkGetPhysicalDeviceFeatures2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFeatures2KHR");
+vkGetPhysicalDeviceProperties2KHR = (PFN_vkGetPhysicalDeviceProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceProperties2KHR");
+vkGetPhysicalDeviceFormatProperties2KHR = (PFN_vkGetPhysicalDeviceFormatProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceFormatProperties2KHR");
+vkGetPhysicalDeviceImageFormatProperties2KHR = (PFN_vkGetPhysicalDeviceImageFormatProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceImageFormatProperties2KHR");
+vkGetPhysicalDeviceQueueFamilyProperties2KHR = (PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceQueueFamilyProperties2KHR");
+vkGetPhysicalDeviceMemoryProperties2KHR = (PFN_vkGetPhysicalDeviceMemoryProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceMemoryProperties2KHR");
+vkGetPhysicalDeviceSparseImageFormatProperties2KHR = (PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceSparseImageFormatProperties2KHR");
 //VK_KHR_external_memory_capabilities
-PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR                    vkGetPhysicalDeviceExternalBufferPropertiesKHR;
+vkGetPhysicalDeviceExternalBufferPropertiesKHR = (PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceExternalBufferPropertiesKHR");
 //VK_KHR_external_semaphore_capabilities
-PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR                 vkGetPhysicalDeviceExternalSemaphorePropertiesKHR;
+vkGetPhysicalDeviceExternalSemaphorePropertiesKHR = (PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR) _vkad_load(_vkad_module, "vkGetPhysicalDeviceExternalSemaphorePropertiesKHR");
 //VK_KHR_external_fence_capabilities
 PFN_vkGetPhysicalDeviceExternalFencePropertiesKHR                     vkGetPhysicalDeviceExternalFencePropertiesKHR;
 //VK_KHR_performance_query
