@@ -11,7 +11,7 @@ Vkad defines three struct types: `VkadGlobalFunctions`, `VkadInstanceFunctions`,
 ```c
 void vkadLoadGlobalFunctions  (PFN_vkGetInstanceProcAddr loader, VkadGlobalFunctions* functions);
 void vkadLoadInstanceFunctions(PFN_vkGetInstanceProcAddr loader, VkInstance instance, VkadInstanceFunctions* functions);
-void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadGlobalFunctions* functions);
+void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadDeviceFunctions* functions);
 ```
 The struct will contain function pointers with member names equivalent to the functions of the appropriate access level, but with the `vk` prefix removes (for example. `VkadDeviceFunctions` has a member `CreateCommandPool` of type `PFN_vkCreateCommandPool`, loaded by `vkadLoadDeviceFunctions` to point to `vkCreateCommandPool`). The function will load all of those pointers, including the platform pointers. Pointers of platforms not included with the macros will be loaded anyway for having a fixed size of these structs, but the type of these members will be `PFN_vkVoidFunction` instead of the correct function pointer type. This means that the type definition, althought not the size, of these structure types can differ when vkad is included in different files with inconsistent platform macros. However, all vkad functions are defined with `static`, so there should be no linking issue, merely an issue of inconsistent type definitions when compiling in the same step. (This is to assist linking general purpose libraries with platform specific ones, if they are compiled seperately.)
 
