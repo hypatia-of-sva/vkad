@@ -12,7 +12,7 @@
     ```c
         void vkadLoadGlobalFunctions  (PFN_vkGetInstanceProcAddr loader, VkadGlobalFunctions* functions);
         void vkadLoadInstanceFunctions(PFN_vkGetInstanceProcAddr loader, VkInstance instance, VkadInstanceFunctions* functions);
-        void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadGlobalFunctions* functions);
+        void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadDeviceFunctions* functions);
     ```
     The struct will contain function pointers with member names equivalent to the functions of the appropriate access level, but with the `vk` prefix removes (for example. `VkadDeviceFunctions` has a member `CreateCommandPool` of type `PFN_vkCreateCommandPool`, loaded by `vkadLoadDeviceFunctions` to point to `vkCreateCommandPool`). The function will load all of those pointers, including the platform pointers. Pointers of platforms not included with the macros will be loaded anyway for having a fixed size of these structs, but the type of these members will be `PFN_vkVoidFunction` instead of the correct function pointer type. This means that the type definition, althought not the size, of these structure types can differ when vkad is included in different files with inconsistent platform macros. However, all vkad functions are defined with `static`, so there should be no linking issue, merely an issue of inconsistent type definitions when compiling in the same step. (This is to assist linking general purpose libraries with platform specific ones, if they are compiled seperately.)
     
@@ -46,10 +46,6 @@
 extern "C" {
 #endif
 
-#if VK_HEADER_VERSION < 284
-#error "Vulkan headers are out of date! Download at least 1.3.284."
-#endif
-
 /* give a better error message than "header not found" */
 #ifdef VK_USE_PLATFORM_SCI
 #error Nvidia Sci Platform only supported on Vulkan SC, not main Vulkan!
@@ -61,6 +57,10 @@ extern "C" {
 #endif
 
 #include <vulkan/vulkan.h>
+
+#if VK_HEADER_VERSION < 284
+#error "Vulkan headers are out of date! Download at least 1.3.284."
+#endif
 
 /* define all platform pointers as void functions in case the headers do not get included; since they have to be convertible from that by a cast, the code should be compatible */
 #ifndef VK_USE_PLATFORM_ANDROID_KHR
@@ -155,7 +155,7 @@ typedef struct VkadGlobalFunctions {
     PFN_vkCreateInstance                                                    CreateInstance                                                  ;
     /* VK_VERSION_1_1 */                                                                                                                    
     PFN_vkEnumerateInstanceVersion                                          EnumerateInstanceVersion                                        ;
-} vkadGlobalFunctions;                                                                                                                      
+} VkadGlobalFunctions;                                                                                                                      
 typedef struct VkadInstanceFunctions {                                                                                                      
     /* VK_VERSION_1_0 */                                                                                                                    
     PFN_vkDestroyInstance                                                   DestroyInstance                                                 ;
@@ -310,7 +310,7 @@ typedef struct VkadInstanceFunctions {
     /* VK_QNX_screen_surface spec_version 1 */
     PFN_vkCreateScreenSurfaceQNX                                            CreateScreenSurfaceQNX                                          ;
     PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX                     GetPhysicalDeviceScreenPresentationSupportQNX                   ;
-} vkadInstanceFunctions;
+} VkadInstanceFunctions;
 typedef struct VkadDeviceFunctions {
     /* VK_VERSION_1_0 */
     PFN_vkDestroyDevice                                                     DestroyDevice                                                   ;
@@ -999,7 +999,7 @@ typedef struct VkadDeviceFunctions {
     PFN_vkCmdDispatchGraphAMDX                                              CmdDispatchGraphAMDX                                            ;
     PFN_vkCmdDispatchGraphIndirectAMDX                                      CmdDispatchGraphIndirectAMDX                                    ;
     PFN_vkCmdDispatchGraphIndirectCountAMDX                                 CmdDispatchGraphIndirectCountAMDX                               ;
-} vkadDeviceFunctions;
+} VkadDeviceFunctions;
 /* extensions without function pointers:
     VK_KHR_sampler_mirror_clamp_to_edge spec_version 3
     VK_KHR_video_encode_h264 spec_version 14
@@ -1390,7 +1390,7 @@ static void vkadLoadInstanceFunctions(PFN_vkGetInstanceProcAddr loader, VkInstan
     functions[0].CreateScreenSurfaceQNX                                            = REINTERPRET_CAST(PFN_vkCreateScreenSurfaceQNX                                            , loader(instance, "vkCreateScreenSurfaceQNX"                                          )) ;
     functions[0].GetPhysicalDeviceScreenPresentationSupportQNX                     = REINTERPRET_CAST(PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX                     , loader(instance, "vkGetPhysicalDeviceScreenPresentationSupportQNX"                   )) ;
 }
-static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadGlobalFunctions* functions) {
+static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadDeviceFunctions* functions) {
     /* VK_VERSION_1_0 */
     functions[0].DestroyDevice                                                     = REINTERPRET_CAST(PFN_vkDestroyDevice                                                     , loader(device, "vkDestroyDevice"                                                 )) ;
     functions[0].GetDeviceQueue                                                    = REINTERPRET_CAST(PFN_vkGetDeviceQueue                                                    , loader(device, "vkGetDeviceQueue"                                                )) ;
