@@ -1,8 +1,8 @@
 /*  vkad - a vulkan function loading utility library.
-    Copyright (c) 2024-     Hypatia of Sva <hypatia.sva@posteo.eu>
+    Copyright (c) 2024-2025     Hypatia of Sva <hypatia.sva@posteo.eu>
     SPDX-License-Identifier: MIT
 
-    Based on the Vulkan Headers 1.3.284.
+    Based on the Vulkan Headers 1.4.309.
     Vkad offers three types and functions and utility macros for the use of Vulkan function loading.
     
     Vkad should be included instead of `vulkan.h`. It will include it, and expects to find it under the path `<vulkan/vulkan.h>`.
@@ -34,7 +34,7 @@
 #define VKAD_H
 
 /* revision date */
-#define VKAD_HEADER_REVISION 0x20240605
+#define VKAD_HEADER_REVISION 0x20250323
 
 #ifdef __cplusplus
 #define REINTERPRET_CAST(X,Y) reinterpret_cast<X>(Y)
@@ -58,8 +58,8 @@ extern "C" {
 
 #include <vulkan/vulkan.h>
 
-#if VK_HEADER_VERSION < 284
-#error "Vulkan headers are out of date! Download at least 1.3.284."
+#if VK_HEADER_VERSION < 309
+#error "Vulkan headers are out of date! Download at least 1.4.309."
 #endif
 
 /* define all platform pointers as void functions in case the headers do not get included; since they have to be convertible from that by a cast, the code should be compatible */
@@ -89,6 +89,8 @@ typedef PFN_vkVoidFunction PFN_vkCreateMacOSSurfaceMVK;
 #ifndef VK_USE_PLATFORM_METAL_EXT
 typedef PFN_vkVoidFunction PFN_vkCreateMetalSurfaceEXT;
 typedef PFN_vkVoidFunction PFN_vkExportMetalObjectsEXT;
+typedef PFN_vkVoidFunction PFN_vkGetMemoryMetalHandleEXT;
+typedef PFN_vkVoidFunction PFN_vkGetMemoryMetalHandlePropertiesEXT;
 #endif
 #ifndef VK_USE_PLATFORM_VI_NN
 typedef PFN_vkVoidFunction PFN_vkCreateViSurfaceNN;
@@ -310,6 +312,11 @@ typedef struct VkadInstanceFunctions {
     /* VK_QNX_screen_surface spec_version 1 */
     PFN_vkCreateScreenSurfaceQNX                                            CreateScreenSurfaceQNX                                          ;
     PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX                     GetPhysicalDeviceScreenPresentationSupportQNX                   ;
+        /* Additions from 1.3.284 to 1.4.309: */
+    /* VK_NV_cooperative_vector spec_version 4 */
+    PFN_vkGetPhysicalDeviceCooperativeVectorPropertiesNV                    GetPhysicalDeviceCooperativeVectorPropertiesNV                  ;
+    /* VK_NV_cooperative_matrix2 spec_version 1 */
+    PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV  GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
 } VkadInstanceFunctions;
 typedef struct VkadDeviceFunctions {
     /* VK_VERSION_1_0 */
@@ -615,6 +622,8 @@ typedef struct VkadDeviceFunctions {
     PFN_vkQueueSubmit2KHR                                                   QueueSubmit2KHR                                                 ;
     PFN_vkCmdWriteBufferMarker2AMD                                          CmdWriteBufferMarker2AMD                                        ;
     PFN_vkGetQueueCheckpointData2NV                                         GetQueueCheckpointData2NV                                       ;
+                /* NOTE: The function vkCmdWriteBufferMarker2AMD was moved into VK_AMD_buffer_marker and vkGetQueueCheckpointData2NV into VK_NV_device_diagnostic_checkpoints from 1.3.284 to 1.4.309;
+                   they are kept here in their old position for the sake of preserving the memory layout of the old portion of the structs */
     /* VK_KHR_copy_commands2 spec_version 1 */
     PFN_vkCmdCopyBuffer2KHR                                                 CmdCopyBuffer2KHR                                               ;
     PFN_vkCmdCopyImage2KHR                                                  CmdCopyImage2KHR                                                ;
@@ -657,13 +666,13 @@ typedef struct VkadDeviceFunctions {
     PFN_vkCmdBeginQueryIndexedEXT                                           CmdBeginQueryIndexedEXT                                         ;
     PFN_vkCmdEndQueryIndexedEXT                                             CmdEndQueryIndexedEXT                                           ;
     PFN_vkCmdDrawIndirectByteCountEXT                                       CmdDrawIndirectByteCountEXT                                     ;
-    /* VK_NVX_binary_import spec_version 1 */
+    /* VK_NVX_binary_import spec_version 2 */
     PFN_vkCreateCuModuleNVX                                                 CreateCuModuleNVX                                               ;
     PFN_vkCreateCuFunctionNVX                                               CreateCuFunctionNVX                                             ;
     PFN_vkDestroyCuModuleNVX                                                DestroyCuModuleNVX                                              ;
     PFN_vkDestroyCuFunctionNVX                                              DestroyCuFunctionNVX                                            ;
     PFN_vkCmdCuLaunchKernelNVX                                              CmdCuLaunchKernelNVX                                            ;
-    /* VK_NVX_image_view_handle spec_version 2 */                           
+    /* VK_NVX_image_view_handle spec_version 3 */
     PFN_vkGetImageViewHandleNVX                                             GetImageViewHandleNVX                                           ;
     PFN_vkGetImageViewAddressNVX                                            GetImageViewAddressNVX                                          ;
     /* VK_AMD_draw_indirect_count spec_version 2 */                         
@@ -688,7 +697,7 @@ typedef struct VkadDeviceFunctions {
     PFN_vkCmdSetDiscardRectangleEXT                                         CmdSetDiscardRectangleEXT                                       ;
     PFN_vkCmdSetDiscardRectangleEnableEXT                                   CmdSetDiscardRectangleEnableEXT                                 ;
     PFN_vkCmdSetDiscardRectangleModeEXT                                     CmdSetDiscardRectangleModeEXT                                   ;
-    /* VK_EXT_hdr_metadata spec_version 2 */                                
+    /* VK_EXT_hdr_metadata spec_version 3 */
     PFN_vkSetHdrMetadataEXT                                                 SetHdrMetadataEXT                                               ;
     /* VK_EXT_debug_utils spec_version 2 */                                 
     PFN_vkSetDebugUtilsObjectNameEXT                                        SetDebugUtilsObjectNameEXT                                      ;
@@ -991,7 +1000,7 @@ typedef struct VkadDeviceFunctions {
     PFN_vkGetDeviceGroupSurfacePresentModes2EXT                             GetDeviceGroupSurfacePresentModes2EXT                           ;
     /* VK_QNX_external_memory_screen_buffer spec_version 1 */               
     PFN_vkGetScreenBufferPropertiesQNX                                      GetScreenBufferPropertiesQNX                                    ;
-    /* VK_AMDX_shader_enqueue spec_version 1 */                             
+    /* VK_AMDX_shader_enqueue spec_version 2 */
     PFN_vkCreateExecutionGraphPipelinesAMDX                                 CreateExecutionGraphPipelinesAMDX                               ;
     PFN_vkGetExecutionGraphPipelineScratchSizeAMDX                          GetExecutionGraphPipelineScratchSizeAMDX                        ;
     PFN_vkGetExecutionGraphPipelineNodeIndexAMDX                            GetExecutionGraphPipelineNodeIndexAMDX                          ;
@@ -999,6 +1008,61 @@ typedef struct VkadDeviceFunctions {
     PFN_vkCmdDispatchGraphAMDX                                              CmdDispatchGraphAMDX                                            ;
     PFN_vkCmdDispatchGraphIndirectAMDX                                      CmdDispatchGraphIndirectAMDX                                    ;
     PFN_vkCmdDispatchGraphIndirectCountAMDX                                 CmdDispatchGraphIndirectCountAMDX                               ;
+        /* Additions from 1.3.284 to 1.4.309: */
+    /* to VK_NVX_image_view_handle spec_version 3 */
+    PFN_vkGetImageViewHandle64NVX                                           GetImageViewHandle64NVX                                         ;
+    /* to VK_EXT_shader_object spec_version 1 */
+    PFN_vkCmdSetDepthClampRangeEXT                                          CmdSetDepthClampRangeEXT                                        ;
+    /* VK_VERSION_1_4 */
+    PFN_vkCmdSetLineStipple                                                 CmdSetLineStipple                                               ;
+    PFN_vkMapMemory2                                                        MapMemory2                                                      ;
+    PFN_vkUnmapMemory2                                                      UnmapMemory2                                                    ;
+    PFN_vkCmdBindIndexBuffer2                                               CmdBindIndexBuffer2                                             ;
+    PFN_vkGetRenderingAreaGranularity                                       GetRenderingAreaGranularity                                     ;
+    PFN_vkGetDeviceImageSubresourceLayout                                   GetDeviceImageSubresourceLayout                                 ;
+    PFN_vkGetImageSubresourceLayout2                                        GetImageSubresourceLayout2                                      ;
+    PFN_vkCmdPushDescriptorSet                                              CmdPushDescriptorSet                                            ;
+    PFN_vkCmdPushDescriptorSetWithTemplate                                  CmdPushDescriptorSetWithTemplate                                ;
+    PFN_vkCmdSetRenderingAttachmentLocations                                CmdSetRenderingAttachmentLocations                              ;
+    PFN_vkCmdSetRenderingInputAttachmentIndices                             CmdSetRenderingInputAttachmentIndices                           ;
+    PFN_vkCmdBindDescriptorSets2                                            CmdBindDescriptorSets2                                          ;
+    PFN_vkCmdPushConstants2                                                 CmdPushConstants2                                               ;
+    PFN_vkCmdPushDescriptorSet2                                             CmdPushDescriptorSet2                                           ;
+    PFN_vkCmdPushDescriptorSetWithTemplate2                                 CmdPushDescriptorSetWithTemplate2                               ;
+    PFN_vkCopyMemoryToImage                                                 CopyMemoryToImage                                               ;
+    PFN_vkCopyImageToMemory                                                 CopyImageToMemory                                               ;
+    PFN_vkCopyImageToImage                                                  CopyImageToImage                                                ;
+    PFN_vkTransitionImageLayout                                             TransitionImageLayout                                           ;
+    /* VK_KHR_pipeline_binary spec_version 1 */
+    PFN_vkCreatePipelineBinariesKHR                                         CreatePipelineBinariesKHR                                       ;
+    PFN_vkDestroyPipelineBinaryKHR                                          DestroyPipelineBinaryKHR                                        ;
+    PFN_vkGetPipelineKeyKHR                                                 GetPipelineKeyKHR                                               ;
+    PFN_vkGetPipelineBinaryDataKHR                                          GetPipelineBinaryDataKHR                                        ;
+    PFN_vkReleaseCapturedPipelineDataKHR                                    ReleaseCapturedPipelineDataKHR                                  ;
+    /* VK_AMD_anti_lag spec_version 1 */
+    PFN_vkAntiLagUpdateAMD                                                  AntiLagUpdateAMD                                                ;
+    /* VK_NV_cooperative_vector spec_version 4 */
+    PFN_vkConvertCooperativeVectorMatrixNV                                  ConvertCooperativeVectorMatrixNV                                ;
+    PFN_vkCmdConvertCooperativeVectorMatrixNV                               CmdConvertCooperativeVectorMatrixNV                             ;
+    /* VK_NV_cluster_acceleration_structure spec_version 2 */
+    PFN_vkGetClusterAccelerationStructureBuildSizesNV                       GetClusterAccelerationStructureBuildSizesNV                     ;
+    PFN_vkCmdBuildClusterAccelerationStructureIndirectNV                    CmdBuildClusterAccelerationStructureIndirectNV                  ;
+    /* VK_NV_partitioned_acceleration_structure spec_version 1 */
+    PFN_vkGetPartitionedAccelerationStructuresBuildSizesNV                  GetPartitionedAccelerationStructuresBuildSizesNV                ;
+    PFN_vkCmdBuildPartitionedAccelerationStructuresNV                       CmdBuildPartitionedAccelerationStructuresNV                     ;
+    /* VK_EXT_device_generated_commands spec_version 1 */
+    PFN_vkGetGeneratedCommandsMemoryRequirementsEXT                         GetGeneratedCommandsMemoryRequirementsEXT                       ;
+    PFN_vkCmdPreprocessGeneratedCommandsEXT                                 CmdPreprocessGeneratedCommandsEXT                               ;
+    PFN_vkCmdExecuteGeneratedCommandsEXT                                    CmdExecuteGeneratedCommandsEXT                                  ;
+    PFN_vkCreateIndirectCommandsLayoutEXT                                   CreateIndirectCommandsLayoutEXT                                 ;
+    PFN_vkDestroyIndirectCommandsLayoutEXT                                  DestroyIndirectCommandsLayoutEXT                                ;
+    PFN_vkCreateIndirectExecutionSetEXT                                     CreateIndirectExecutionSetEXT                                   ;
+    PFN_vkDestroyIndirectExecutionSetEXT                                    DestroyIndirectExecutionSetEXT                                  ;
+    PFN_vkUpdateIndirectExecutionSetPipelineEXT                             UpdateIndirectExecutionSetPipelineEXT                           ;
+    PFN_vkUpdateIndirectExecutionSetShaderEXT                               UpdateIndirectExecutionSetShaderEXT                             ;
+    /* VK_EXT_external_memory_metal spec_version 1 */
+    PFN_vkGetMemoryMetalHandleEXT                                           GetMemoryMetalHandleEXT                                         ;
+    PFN_vkGetMemoryMetalHandlePropertiesEXT                                 GetMemoryMetalHandlePropertiesEXT                               ;
 } VkadDeviceFunctions;
 /* extensions without function pointers:
     VK_KHR_sampler_mirror_clamp_to_edge spec_version 3
@@ -1027,7 +1091,7 @@ typedef struct VkadDeviceFunctions {
     VK_KHR_video_decode_h265 spec_version 8
     VK_KHR_global_priority spec_version 1
     VK_KHR_driver_properties spec_version 1
-    VK_KHR_shader_float_controls spec_version 1
+    VK_KHR_shader_float_controls spec_version 4
     VK_KHR_depth_stencil_resolve spec_version 1
     VK_KHR_swapchain_mutable_format spec_version 1
     VK_KHR_vulkan_memory_model spec_version 3
@@ -1086,7 +1150,7 @@ typedef struct VkadDeviceFunctions {
     VK_NV_viewport_swizzle spec_version 1
     VK_EXT_conservative_rasterization spec_version 1
     VK_EXT_depth_clip_enable spec_version 1
-    VK_EXT_swapchain_colorspace spec_version 4
+    VK_EXT_swapchain_colorspace spec_version 5
     VK_IMG_relaxed_line_rasterization spec_version 1
     VK_EXT_external_memory_dma_buf spec_version 1
     VK_EXT_queue_family_foreign spec_version 1
@@ -1185,7 +1249,7 @@ typedef struct VkadDeviceFunctions {
     VK_EXT_depth_clamp_zero_one spec_version 1
     VK_EXT_non_seamless_cube_map spec_version 1
     VK_ARM_render_pass_striped spec_version 1
-    VK_QCOM_fragment_density_map_offset spec_version 1
+    VK_QCOM_fragment_density_map_offset spec_version 2
     VK_NV_linear_color_attachment spec_version 1
     VK_GOOGLE_surfaceless_query spec_version 2
     VK_EXT_image_compression_control_swapchain spec_version 1
@@ -1225,6 +1289,26 @@ typedef struct VkadDeviceFunctions {
     VK_GGP_frame_token spec_version 1
     VK_KHR_portability_subset spec_version 1
     VK_NV_displacement_micromap spec_version 2
+        Additions from 1.3.284 to 1.4.309:
+    VK_KHR_compute_shader_derivatives spec_version 1
+    VK_KHR_video_encode_av1 spec_version 1
+    VK_KHR_video_encode_quantization_map spec_version 2
+    VK_KHR_shader_relaxed_extended_instruction spec_version 1
+    VK_KHR_maintenance7 spec_version 1
+    VK_KHR_maintenance8 spec_version 1
+    VK_KHR_video_maintenance2 spec_version 1
+    VK_KHR_depth_clamp_zero_one spec_version 1
+    VK_EXT_present_mode_fifo_latest_ready spec_version 1
+    VK_NV_ray_tracing_linear_swept_spheres spec_version 1
+    VK_NV_display_stereo spec_version 1
+    VK_NV_command_buffer_inheritance spec_version 1
+    VK_EXT_shader_replicated_composites spec_version 1
+    VK_MESA_image_alignment_control spec_version 1
+    VK_EXT_depth_clamp_control spec_version 1
+    VK_HUAWEI_hdr_vivid spec_version 1
+    VK_ARM_pipeline_opacity_micromap spec_version 1
+    VK_EXT_vertex_attribute_robustness spec_version 1
+    VK_NV_present_metering spec_version 1
 */
 
 static void vkadLoadGlobalFunctions  (PFN_vkGetInstanceProcAddr loader, VkadGlobalFunctions* functions) {
@@ -1389,6 +1473,11 @@ static void vkadLoadInstanceFunctions(PFN_vkGetInstanceProcAddr loader, VkInstan
     /* VK_QNX_screen_surface spec_version 1 */                                       
     functions[0].CreateScreenSurfaceQNX                                            = REINTERPRET_CAST(PFN_vkCreateScreenSurfaceQNX                                            , loader(instance, "vkCreateScreenSurfaceQNX"                                          )) ;
     functions[0].GetPhysicalDeviceScreenPresentationSupportQNX                     = REINTERPRET_CAST(PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX                     , loader(instance, "vkGetPhysicalDeviceScreenPresentationSupportQNX"                   )) ;
+        /* Additions from 1.3.284 to 1.4.309: */
+    /* VK_NV_cooperative_vector spec_version 4 */
+    functions[0].GetPhysicalDeviceCooperativeVectorPropertiesNV                    = REINTERPRET_CAST(PFN_vkGetPhysicalDeviceCooperativeVectorPropertiesNV                    , loader(instance, "vkGetPhysicalDeviceCooperativeVectorPropertiesNV"                  )) ;
+    /* VK_NV_cooperative_matrix2 spec_version 1 */
+    functions[0].GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV  = REINTERPRET_CAST(PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV  , loader(instance, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV")) ;
 }
 static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice device, VkadDeviceFunctions* functions) {
     /* VK_VERSION_1_0 */
@@ -1685,7 +1774,7 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     /* VK_KHR_video_encode_queue spec_version 12 */                                  
     functions[0].GetEncodedVideoSessionParametersKHR                               = REINTERPRET_CAST(PFN_vkGetEncodedVideoSessionParametersKHR                               , loader(device, "vkGetEncodedVideoSessionParametersKHR"                           )) ;
     functions[0].CmdEncodeVideoKHR                                                 = REINTERPRET_CAST(PFN_vkCmdEncodeVideoKHR                                                 , loader(device, "vkCmdEncodeVideoKHR"                                             )) ;
-    /* VK_KHR_synchronization2 spec_version 1 */                                     
+    /* VK_KHR_synchronization2 spec_version 1 */
     functions[0].CmdSetEvent2KHR                                                   = REINTERPRET_CAST(PFN_vkCmdSetEvent2KHR                                                   , loader(device, "vkCmdSetEvent2KHR"                                               )) ;
     functions[0].CmdResetEvent2KHR                                                 = REINTERPRET_CAST(PFN_vkCmdResetEvent2KHR                                                 , loader(device, "vkCmdResetEvent2KHR"                                             )) ;
     functions[0].CmdWaitEvents2KHR                                                 = REINTERPRET_CAST(PFN_vkCmdWaitEvents2KHR                                                 , loader(device, "vkCmdWaitEvents2KHR"                                             )) ;
@@ -1694,6 +1783,8 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].QueueSubmit2KHR                                                   = REINTERPRET_CAST(PFN_vkQueueSubmit2KHR                                                   , loader(device, "vkQueueSubmit2KHR"                                               )) ;
     functions[0].CmdWriteBufferMarker2AMD                                          = REINTERPRET_CAST(PFN_vkCmdWriteBufferMarker2AMD                                          , loader(device, "vkCmdWriteBufferMarker2AMD"                                      )) ;
     functions[0].GetQueueCheckpointData2NV                                         = REINTERPRET_CAST(PFN_vkGetQueueCheckpointData2NV                                         , loader(device, "vkGetQueueCheckpointData2NV"                                     )) ;
+                /* NOTE: The function vkCmdWriteBufferMarker2AMD was moved into VK_AMD_buffer_marker and vkGetQueueCheckpointData2NV into VK_NV_device_diagnostic_checkpoints from 1.3.284 to 1.4.309;
+                   they are kept here in their old position for the sake of preserving the memory layout of the old portion of the structs */
     /* VK_KHR_copy_commands2 spec_version 1 */                                       
     functions[0].CmdCopyBuffer2KHR                                                 = REINTERPRET_CAST(PFN_vkCmdCopyBuffer2KHR                                                 , loader(device, "vkCmdCopyBuffer2KHR"                                             )) ;
     functions[0].CmdCopyImage2KHR                                                  = REINTERPRET_CAST(PFN_vkCmdCopyImage2KHR                                                  , loader(device, "vkCmdCopyImage2KHR"                                              )) ;
@@ -1736,13 +1827,13 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].CmdBeginQueryIndexedEXT                                           = REINTERPRET_CAST(PFN_vkCmdBeginQueryIndexedEXT                                           , loader(device, "vkCmdBeginQueryIndexedEXT"                                       )) ;
     functions[0].CmdEndQueryIndexedEXT                                             = REINTERPRET_CAST(PFN_vkCmdEndQueryIndexedEXT                                             , loader(device, "vkCmdEndQueryIndexedEXT"                                         )) ;
     functions[0].CmdDrawIndirectByteCountEXT                                       = REINTERPRET_CAST(PFN_vkCmdDrawIndirectByteCountEXT                                       , loader(device, "vkCmdDrawIndirectByteCountEXT"                                   )) ;
-    /* VK_NVX_binary_import spec_version 1 */                                        
+    /* VK_NVX_binary_import spec_version 2 */
     functions[0].CreateCuModuleNVX                                                 = REINTERPRET_CAST(PFN_vkCreateCuModuleNVX                                                 , loader(device, "vkCreateCuModuleNVX"                                             )) ;
     functions[0].CreateCuFunctionNVX                                               = REINTERPRET_CAST(PFN_vkCreateCuFunctionNVX                                               , loader(device, "vkCreateCuFunctionNVX"                                           )) ;
     functions[0].DestroyCuModuleNVX                                                = REINTERPRET_CAST(PFN_vkDestroyCuModuleNVX                                                , loader(device, "vkDestroyCuModuleNVX"                                            )) ;
     functions[0].DestroyCuFunctionNVX                                              = REINTERPRET_CAST(PFN_vkDestroyCuFunctionNVX                                              , loader(device, "vkDestroyCuFunctionNVX"                                          )) ;
     functions[0].CmdCuLaunchKernelNVX                                              = REINTERPRET_CAST(PFN_vkCmdCuLaunchKernelNVX                                              , loader(device, "vkCmdCuLaunchKernelNVX"                                          )) ;
-    /* VK_NVX_image_view_handle spec_version 2 */                                    
+    /* VK_NVX_image_view_handle spec_version 3 */
     functions[0].GetImageViewHandleNVX                                             = REINTERPRET_CAST(PFN_vkGetImageViewHandleNVX                                             , loader(device, "vkGetImageViewHandleNVX"                                         )) ;
     functions[0].GetImageViewAddressNVX                                            = REINTERPRET_CAST(PFN_vkGetImageViewAddressNVX                                            , loader(device, "vkGetImageViewAddressNVX"                                        )) ;
     /* VK_AMD_draw_indirect_count spec_version 2 */                                  
@@ -1767,7 +1858,7 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].CmdSetDiscardRectangleEXT                                         = REINTERPRET_CAST(PFN_vkCmdSetDiscardRectangleEXT                                         , loader(device, "vkCmdSetDiscardRectangleEXT"                                     )) ;
     functions[0].CmdSetDiscardRectangleEnableEXT                                   = REINTERPRET_CAST(PFN_vkCmdSetDiscardRectangleEnableEXT                                   , loader(device, "vkCmdSetDiscardRectangleEnableEXT"                               )) ;
     functions[0].CmdSetDiscardRectangleModeEXT                                     = REINTERPRET_CAST(PFN_vkCmdSetDiscardRectangleModeEXT                                     , loader(device, "vkCmdSetDiscardRectangleModeEXT"                                 )) ;
-    /* VK_EXT_hdr_metadata spec_version 2 */                                         
+    /* VK_EXT_hdr_metadata spec_version 3 */
     functions[0].SetHdrMetadataEXT                                                 = REINTERPRET_CAST(PFN_vkSetHdrMetadataEXT                                                 , loader(device, "vkSetHdrMetadataEXT"                                             )) ;
     /* VK_EXT_debug_utils spec_version 2 */                                          
     functions[0].SetDebugUtilsObjectNameEXT                                        = REINTERPRET_CAST(PFN_vkSetDebugUtilsObjectNameEXT                                        , loader(device, "vkSetDebugUtilsObjectNameEXT"                                    )) ;
@@ -2070,7 +2161,7 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].GetDeviceGroupSurfacePresentModes2EXT                             = REINTERPRET_CAST(PFN_vkGetDeviceGroupSurfacePresentModes2EXT                             , loader(device, "vkGetDeviceGroupSurfacePresentModes2EXT"                         )) ;
     /* VK_QNX_external_memory_screen_buffer spec_version 1 */                        
     functions[0].GetScreenBufferPropertiesQNX                                      = REINTERPRET_CAST(PFN_vkGetScreenBufferPropertiesQNX                                      , loader(device, "vkGetScreenBufferPropertiesQNX"                                  )) ;
-    /* VK_AMDX_shader_enqueue spec_version 1 */                                      
+    /* VK_AMDX_shader_enqueue spec_version 2 */
     functions[0].CreateExecutionGraphPipelinesAMDX                                 = REINTERPRET_CAST(PFN_vkCreateExecutionGraphPipelinesAMDX                                 , loader(device, "vkCreateExecutionGraphPipelinesAMDX"                             )) ;
     functions[0].GetExecutionGraphPipelineScratchSizeAMDX                          = REINTERPRET_CAST(PFN_vkGetExecutionGraphPipelineScratchSizeAMDX                          , loader(device, "vkGetExecutionGraphPipelineScratchSizeAMDX"                      )) ;
     functions[0].GetExecutionGraphPipelineNodeIndexAMDX                            = REINTERPRET_CAST(PFN_vkGetExecutionGraphPipelineNodeIndexAMDX                            , loader(device, "vkGetExecutionGraphPipelineNodeIndexAMDX"                        )) ;
@@ -2078,6 +2169,61 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].CmdDispatchGraphAMDX                                              = REINTERPRET_CAST(PFN_vkCmdDispatchGraphAMDX                                              , loader(device, "vkCmdDispatchGraphAMDX"                                          )) ;
     functions[0].CmdDispatchGraphIndirectAMDX                                      = REINTERPRET_CAST(PFN_vkCmdDispatchGraphIndirectAMDX                                      , loader(device, "vkCmdDispatchGraphIndirectAMDX"                                  )) ;
     functions[0].CmdDispatchGraphIndirectCountAMDX                                 = REINTERPRET_CAST(PFN_vkCmdDispatchGraphIndirectCountAMDX                                 , loader(device, "vkCmdDispatchGraphIndirectCountAMDX"                             )) ;
+        /* Additions from 1.3.284 to 1.4.309: */
+    /* to VK_NVX_image_view_handle spec_version 3 */
+    functions[0].GetImageViewHandle64NVX                                           = REINTERPRET_CAST(PFN_vkGetImageViewHandle64NVX                                           , loader(device, "vkGetImageViewHandle64NVX"                                       )) ;
+    /* to VK_EXT_shader_object spec_version 1 */
+    functions[0].CmdSetDepthClampRangeEXT                                          = REINTERPRET_CAST(PFN_vkCmdSetDepthClampRangeEXT                                          , loader(device, "vkCmdSetDepthClampRangeEXT"                                      )) ;
+    /* VK_VERSION_1_4 */
+    functions[0].CmdSetLineStipple                                                 = REINTERPRET_CAST(PFN_vkCmdSetLineStipple                                                 , loader(device, "vkCmdSetLineStipple"                                             )) ;
+    functions[0].MapMemory2                                                        = REINTERPRET_CAST(PFN_vkMapMemory2                                                        , loader(device, "vkMapMemory2"                                                    )) ;
+    functions[0].UnmapMemory2                                                      = REINTERPRET_CAST(PFN_vkUnmapMemory2                                                      , loader(device, "vkUnmapMemory2"                                                  )) ;
+    functions[0].CmdBindIndexBuffer2                                               = REINTERPRET_CAST(PFN_vkCmdBindIndexBuffer2                                               , loader(device, "vkCmdBindIndexBuffer2"                                           )) ;
+    functions[0].GetRenderingAreaGranularity                                       = REINTERPRET_CAST(PFN_vkGetRenderingAreaGranularity                                       , loader(device, "vkGetRenderingAreaGranularity"                                   )) ;
+    functions[0].GetDeviceImageSubresourceLayout                                   = REINTERPRET_CAST(PFN_vkGetDeviceImageSubresourceLayout                                   , loader(device, "vkGetDeviceImageSubresourceLayout"                               )) ;
+    functions[0].GetImageSubresourceLayout2                                        = REINTERPRET_CAST(PFN_vkGetImageSubresourceLayout2                                        , loader(device, "vkGetImageSubresourceLayout2"                                    )) ;
+    functions[0].CmdPushDescriptorSet                                              = REINTERPRET_CAST(PFN_vkCmdPushDescriptorSet                                              , loader(device, "vkCmdPushDescriptorSet"                                          )) ;
+    functions[0].CmdPushDescriptorSetWithTemplate                                  = REINTERPRET_CAST(PFN_vkCmdPushDescriptorSetWithTemplate                                  , loader(device, "vkCmdPushDescriptorSetWithTemplate"                              )) ;
+    functions[0].CmdSetRenderingAttachmentLocations                                = REINTERPRET_CAST(PFN_vkCmdSetRenderingAttachmentLocations                                , loader(device, "vkCmdSetRenderingAttachmentLocations"                            )) ;
+    functions[0].CmdSetRenderingInputAttachmentIndices                             = REINTERPRET_CAST(PFN_vkCmdSetRenderingInputAttachmentIndices                             , loader(device, "vkCmdSetRenderingInputAttachmentIndices"                         )) ;
+    functions[0].CmdBindDescriptorSets2                                            = REINTERPRET_CAST(PFN_vkCmdBindDescriptorSets2                                            , loader(device, "vkCmdBindDescriptorSets2"                                        )) ;
+    functions[0].CmdPushConstants2                                                 = REINTERPRET_CAST(PFN_vkCmdPushConstants2                                                 , loader(device, "vkCmdPushConstants2"                                             )) ;
+    functions[0].CmdPushDescriptorSet2                                             = REINTERPRET_CAST(PFN_vkCmdPushDescriptorSet2                                             , loader(device, "vkCmdPushDescriptorSet2"                                         )) ;
+    functions[0].CmdPushDescriptorSetWithTemplate2                                 = REINTERPRET_CAST(PFN_vkCmdPushDescriptorSetWithTemplate2                                 , loader(device, "vkCmdPushDescriptorSetWithTemplate2"                             )) ;
+    functions[0].CopyMemoryToImage                                                 = REINTERPRET_CAST(PFN_vkCopyMemoryToImage                                                 , loader(device, "vkCopyMemoryToImage"                                             )) ;
+    functions[0].CopyImageToMemory                                                 = REINTERPRET_CAST(PFN_vkCopyImageToMemory                                                 , loader(device, "vkCopyImageToMemory"                                             )) ;
+    functions[0].CopyImageToImage                                                  = REINTERPRET_CAST(PFN_vkCopyImageToImage                                                  , loader(device, "vkCopyImageToImage"                                              )) ;
+    functions[0].TransitionImageLayout                                             = REINTERPRET_CAST(PFN_vkTransitionImageLayout                                             , loader(device, "vkTransitionImageLayout"                                         )) ;
+    /* VK_KHR_pipeline_binary spec_version 1 */
+    functions[0].CreatePipelineBinariesKHR                                         = REINTERPRET_CAST(PFN_vkCreatePipelineBinariesKHR                                         , loader(device, "vkCreatePipelineBinariesKHR"                                     )) ;
+    functions[0].DestroyPipelineBinaryKHR                                          = REINTERPRET_CAST(PFN_vkDestroyPipelineBinaryKHR                                          , loader(device, "vkDestroyPipelineBinaryKHR"                                      )) ;
+    functions[0].GetPipelineKeyKHR                                                 = REINTERPRET_CAST(PFN_vkGetPipelineKeyKHR                                                 , loader(device, "vkGetPipelineKeyKHR"                                             )) ;
+    functions[0].GetPipelineBinaryDataKHR                                          = REINTERPRET_CAST(PFN_vkGetPipelineBinaryDataKHR                                          , loader(device, "vkGetPipelineBinaryDataKHR"                                      )) ;
+    functions[0].ReleaseCapturedPipelineDataKHR                                    = REINTERPRET_CAST(PFN_vkReleaseCapturedPipelineDataKHR                                    , loader(device, "vkReleaseCapturedPipelineDataKHR"                                )) ;
+    /* VK_AMD_anti_lag spec_version 1 */
+    functions[0].AntiLagUpdateAMD                                                  = REINTERPRET_CAST(PFN_vkAntiLagUpdateAMD                                                  , loader(device, "vkAntiLagUpdateAMD"                                              )) ;
+    /* VK_NV_cooperative_vector spec_version 4 */
+    functions[0].ConvertCooperativeVectorMatrixNV                                  = REINTERPRET_CAST(PFN_vkConvertCooperativeVectorMatrixNV                                  , loader(device, "vkConvertCooperativeVectorMatrixNV"                              )) ;
+    functions[0].CmdConvertCooperativeVectorMatrixNV                               = REINTERPRET_CAST(PFN_vkCmdConvertCooperativeVectorMatrixNV                               , loader(device, "vkCmdConvertCooperativeVectorMatrixNV"                           )) ;
+    /* VK_NV_cluster_acceleration_structure spec_version 2 */
+    functions[0].GetClusterAccelerationStructureBuildSizesNV                       = REINTERPRET_CAST(PFN_vkGetClusterAccelerationStructureBuildSizesNV                       , loader(device, "vkGetClusterAccelerationStructureBuildSizesNV"                   )) ;
+    functions[0].CmdBuildClusterAccelerationStructureIndirectNV                    = REINTERPRET_CAST(PFN_vkCmdBuildClusterAccelerationStructureIndirectNV                    , loader(device, "vkCmdBuildClusterAccelerationStructureIndirectNV"                )) ;
+    /* VK_NV_partitioned_acceleration_structure spec_version 1 */
+    functions[0].GetPartitionedAccelerationStructuresBuildSizesNV                  = REINTERPRET_CAST(PFN_vkGetPartitionedAccelerationStructuresBuildSizesNV                  , loader(device, "vkGetPartitionedAccelerationStructuresBuildSizesNV"              )) ;
+    functions[0].CmdBuildPartitionedAccelerationStructuresNV                       = REINTERPRET_CAST(PFN_vkCmdBuildPartitionedAccelerationStructuresNV                       , loader(device, "vkCmdBuildPartitionedAccelerationStructuresNV"                   )) ;
+    /* VK_EXT_device_generated_commands spec_version 1 */
+    functions[0].GetGeneratedCommandsMemoryRequirementsEXT                         = REINTERPRET_CAST(PFN_vkGetGeneratedCommandsMemoryRequirementsEXT                         , loader(device, "vkGetGeneratedCommandsMemoryRequirementsEXT"                     )) ;
+    functions[0].CmdPreprocessGeneratedCommandsEXT                                 = REINTERPRET_CAST(PFN_vkCmdPreprocessGeneratedCommandsEXT                                 , loader(device, "vkCmdPreprocessGeneratedCommandsEXT"                             )) ;
+    functions[0].CmdExecuteGeneratedCommandsEXT                                    = REINTERPRET_CAST(PFN_vkCmdExecuteGeneratedCommandsEXT                                    , loader(device, "vkCmdExecuteGeneratedCommandsEXT"                                )) ;
+    functions[0].CreateIndirectCommandsLayoutEXT                                   = REINTERPRET_CAST(PFN_vkCreateIndirectCommandsLayoutEXT                                   , loader(device, "vkCreateIndirectCommandsLayoutEXT"                               )) ;
+    functions[0].DestroyIndirectCommandsLayoutEXT                                  = REINTERPRET_CAST(PFN_vkDestroyIndirectCommandsLayoutEXT                                  , loader(device, "vkDestroyIndirectCommandsLayoutEXT"                              )) ;
+    functions[0].CreateIndirectExecutionSetEXT                                     = REINTERPRET_CAST(PFN_vkCreateIndirectExecutionSetEXT                                     , loader(device, "vkCreateIndirectExecutionSetEXT"                                 )) ;
+    functions[0].DestroyIndirectExecutionSetEXT                                    = REINTERPRET_CAST(PFN_vkDestroyIndirectExecutionSetEXT                                    , loader(device, "vkDestroyIndirectExecutionSetEXT"                                )) ;
+    functions[0].UpdateIndirectExecutionSetPipelineEXT                             = REINTERPRET_CAST(PFN_vkUpdateIndirectExecutionSetPipelineEXT                             , loader(device, "vkUpdateIndirectExecutionSetPipelineEXT"                         )) ;
+    functions[0].UpdateIndirectExecutionSetShaderEXT                               = REINTERPRET_CAST(PFN_vkUpdateIndirectExecutionSetShaderEXT                               , loader(device, "vkUpdateIndirectExecutionSetShaderEXT"                           )) ;
+    /* VK_EXT_external_memory_metal spec_version 1 */
+    functions[0.]GetMemoryMetalHandleEXT                                           = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandleEXT                                           , loader(device, "vkGetMemoryMetalHandleEXT"                                       )) ;
+    functions[0.]GetMemoryMetalHandlePropertiesEXT                                 = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandlePropertiesEXT                                 , loader(device, "vkGetMemoryMetalHandlePropertiesEXT"                             )) ;
 }
 
 #ifndef VKAD_NO_GLOBAL_SYMBOLS
@@ -2244,6 +2390,11 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
         /* VK_QNX_screen_surface spec_version 1 */                          
 #define vkCreateScreenSurfaceQNX                                            VKAD_USER_INSTANCE.CreateScreenSurfaceQNX                                
 #define vkGetPhysicalDeviceScreenPresentationSupportQNX                     VKAD_USER_INSTANCE.GetPhysicalDeviceScreenPresentationSupportQNX         
+        /* Additions from 1.3.284 to 1.4.309: */
+        /* VK_NV_cooperative_vector spec_version 4 */
+#define vkGetPhysicalDeviceCooperativeVectorPropertiesNV                    VKAD_USER_INSTANCE.GetPhysicalDeviceCooperativeVectorPropertiesNV
+        /* VK_NV_cooperative_matrix2 spec_version 1 */
+#define vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV  VKAD_USER_INSTANCE.GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV
 
 
 /* device functions */    
@@ -2550,6 +2701,8 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
 #define vkQueueSubmit2KHR                                                   VKAD_USER_DEVICE.QueueSubmit2KHR                                           
 #define vkCmdWriteBufferMarker2AMD                                          VKAD_USER_DEVICE.CmdWriteBufferMarker2AMD                                  
 #define vkGetQueueCheckpointData2NV                                         VKAD_USER_DEVICE.GetQueueCheckpointData2NV                                 
+                /* NOTE: The function vkCmdWriteBufferMarker2AMD was moved into VK_AMD_buffer_marker and vkGetQueueCheckpointData2NV into VK_NV_device_diagnostic_checkpoints from 1.3.284 to 1.4.309;
+                   they are kept here in their old position for the sake of preserving the memory layout of the old portion of the structs */
         /* VK_KHR_copy_commands2 spec_version 1 */                          
 #define vkCmdCopyBuffer2KHR                                                 VKAD_USER_DEVICE.CmdCopyBuffer2KHR                                         
 #define vkCmdCopyImage2KHR                                                  VKAD_USER_DEVICE.CmdCopyImage2KHR                                          
@@ -2592,13 +2745,13 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
 #define vkCmdBeginQueryIndexedEXT                                           VKAD_USER_DEVICE.CmdBeginQueryIndexedEXT                                   
 #define vkCmdEndQueryIndexedEXT                                             VKAD_USER_DEVICE.CmdEndQueryIndexedEXT                                     
 #define vkCmdDrawIndirectByteCountEXT                                       VKAD_USER_DEVICE.CmdDrawIndirectByteCountEXT                               
-        /* VK_NVX_binary_import spec_version 1 */                           
+        /* VK_NVX_binary_import spec_version 2 */
 #define vkCreateCuModuleNVX                                                 VKAD_USER_DEVICE.CreateCuModuleNVX                                         
 #define vkCreateCuFunctionNVX                                               VKAD_USER_DEVICE.CreateCuFunctionNVX                                       
 #define vkDestroyCuModuleNVX                                                VKAD_USER_DEVICE.DestroyCuModuleNVX                                        
 #define vkDestroyCuFunctionNVX                                              VKAD_USER_DEVICE.DestroyCuFunctionNVX                                      
 #define vkCmdCuLaunchKernelNVX                                              VKAD_USER_DEVICE.CmdCuLaunchKernelNVX                                      
-        /* VK_NVX_image_view_handle spec_version 2 */                       
+        /* VK_NVX_image_view_handle spec_version 3 */
 #define vkGetImageViewHandleNVX                                             VKAD_USER_DEVICE.GetImageViewHandleNVX                                     
 #define vkGetImageViewAddressNVX                                            VKAD_USER_DEVICE.GetImageViewAddressNVX                                    
         /* VK_AMD_draw_indirect_count spec_version 2 */                     
@@ -2623,7 +2776,7 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
 #define vkCmdSetDiscardRectangleEXT                                         VKAD_USER_DEVICE.CmdSetDiscardRectangleEXT                                 
 #define vkCmdSetDiscardRectangleEnableEXT                                   VKAD_USER_DEVICE.CmdSetDiscardRectangleEnableEXT                           
 #define vkCmdSetDiscardRectangleModeEXT                                     VKAD_USER_DEVICE.CmdSetDiscardRectangleModeEXT                             
-        /* VK_EXT_hdr_metadata spec_version 2 */                            
+        /* VK_EXT_hdr_metadata spec_version 3 */
 #define vkSetHdrMetadataEXT                                                 VKAD_USER_DEVICE.SetHdrMetadataEXT                                         
         /* VK_EXT_debug_utils spec_version 2 */                             
 #define vkSetDebugUtilsObjectNameEXT                                        VKAD_USER_DEVICE.SetDebugUtilsObjectNameEXT                                
@@ -2926,14 +3079,69 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
 #define vkGetDeviceGroupSurfacePresentModes2EXT                             VKAD_USER_DEVICE.GetDeviceGroupSurfacePresentModes2EXT                     
         /* VK_QNX_external_memory_screen_buffer spec_version 1 */           
 #define vkGetScreenBufferPropertiesQNX                                      VKAD_USER_DEVICE.GetScreenBufferPropertiesQNX                              
-        /* VK_AMDX_shader_enqueue spec_version 1 */                         
+        /* VK_AMDX_shader_enqueue spec_version 2 */
 #define vkCreateExecutionGraphPipelinesAMDX                                 VKAD_USER_DEVICE.CreateExecutionGraphPipelinesAMDX                         
 #define vkGetExecutionGraphPipelineScratchSizeAMDX                          VKAD_USER_DEVICE.GetExecutionGraphPipelineScratchSizeAMDX                  
 #define vkGetExecutionGraphPipelineNodeIndexAMDX                            VKAD_USER_DEVICE.GetExecutionGraphPipelineNodeIndexAMDX                    
 #define vkCmdInitializeGraphScratchMemoryAMDX                               VKAD_USER_DEVICE.CmdInitializeGraphScratchMemoryAMDX                       
 #define vkCmdDispatchGraphAMDX                                              VKAD_USER_DEVICE.CmdDispatchGraphAMDX                                      
 #define vkCmdDispatchGraphIndirectAMDX                                      VKAD_USER_DEVICE.CmdDispatchGraphIndirectAMDX                               
-#define vkCmdDispatchGraphIndirectCountAMDX                                 VKAD_USER_DEVICE.CmdDispatchGraphIndirectCountAMDX                          
+#define vkCmdDispatchGraphIndirectCountAMDX                                 VKAD_USER_DEVICE.CmdDispatchGraphIndirectCountAMDX
+                /* Additions from 1.3.284 to 1.4.309: */
+        /* to VK_NVX_image_view_handle spec_version 3 */
+#define vkGetImageViewHandle64NVX                                           VKAD_USER_DEVICE.GetImageViewHandle64NVX
+        /* to VK_EXT_shader_object spec_version 1 */
+#define vkCmdSetDepthClampRangeEXT                                          VKAD_USER_DEVICE.CmdSetDepthClampRangeEXT
+        /* VK_VERSION_1_4 */
+#define vkCmdSetLineStipple                                                 VKAD_USER_DEVICE.CmdSetLineStipple
+#define vkMapMemory2                                                        VKAD_USER_DEVICE.MapMemory2
+#define vkUnmapMemory2                                                      VKAD_USER_DEVICE.UnmapMemory2
+#define vkCmdBindIndexBuffer2                                               VKAD_USER_DEVICE.CmdBindIndexBuffer2
+#define vkGetRenderingAreaGranularity                                       VKAD_USER_DEVICE.GetRenderingAreaGranularity
+#define vkGetDeviceImageSubresourceLayout                                   VKAD_USER_DEVICE.GetDeviceImageSubresourceLayout
+#define vkGetImageSubresourceLayout2                                        VKAD_USER_DEVICE.GetImageSubresourceLayout2
+#define vkCmdPushDescriptorSet                                              VKAD_USER_DEVICE.CmdPushDescriptorSet
+#define vkCmdPushDescriptorSetWithTemplate                                  VKAD_USER_DEVICE.CmdPushDescriptorSetWithTemplate
+#define vkCmdSetRenderingAttachmentLocations                                VKAD_USER_DEVICE.CmdSetRenderingAttachmentLocations
+#define vkCmdSetRenderingInputAttachmentIndices                             VKAD_USER_DEVICE.CmdSetRenderingInputAttachmentIndices
+#define vkCmdBindDescriptorSets2                                            VKAD_USER_DEVICE.CmdBindDescriptorSets2
+#define vkCmdPushConstants2                                                 VKAD_USER_DEVICE.CmdPushConstants2
+#define vkCmdPushDescriptorSet2                                             VKAD_USER_DEVICE.CmdPushDescriptorSet2
+#define vkCmdPushDescriptorSetWithTemplate2                                 VKAD_USER_DEVICE.CmdPushDescriptorSetWithTemplate2
+#define vkCopyMemoryToImage                                                 VKAD_USER_DEVICE.CopyMemoryToImage
+#define vkCopyImageToMemory                                                 VKAD_USER_DEVICE.CopyImageToMemory
+#define vkCopyImageToImage                                                  VKAD_USER_DEVICE.CopyImageToImage
+#define vkTransitionImageLayout                                             VKAD_USER_DEVICE.TransitionImageLayout
+        /* VK_KHR_pipeline_binary spec_version 1 */
+#define vkCreatePipelineBinariesKHR                                         VKAD_USER_DEVICE.CreatePipelineBinariesKHR
+#define vkDestroyPipelineBinaryKHR                                          VKAD_USER_DEVICE.DestroyPipelineBinaryKHR
+#define vkGetPipelineKeyKHR                                                 VKAD_USER_DEVICE.GetPipelineKeyKHR
+#define vkGetPipelineBinaryDataKHR                                          VKAD_USER_DEVICE.GetPipelineBinaryDataKHR
+#define vkReleaseCapturedPipelineDataKHR                                    VKAD_USER_DEVICE.ReleaseCapturedPipelineDataKHR
+        /* VK_AMD_anti_lag spec_version 1 */
+#define vkAntiLagUpdateAMD                                                  VKAD_USER_DEVICE.AntiLagUpdateAMD
+        /* VK_NV_cooperative_vector spec_version 4 */
+#define vkConvertCooperativeVectorMatrixNV                                  VKAD_USER_DEVICE.ConvertCooperativeVectorMatrixNV
+#define vkCmdConvertCooperativeVectorMatrixNV                               VKAD_USER_DEVICE.CmdConvertCooperativeVectorMatrixNV
+        /* VK_NV_cluster_acceleration_structure spec_version 2 */
+#define vkGetClusterAccelerationStructureBuildSizesNV                       VKAD_USER_DEVICE.GetClusterAccelerationStructureBuildSizesNV
+#define vkCmdBuildClusterAccelerationStructureIndirectNV                    VKAD_USER_DEVICE.CmdBuildClusterAccelerationStructureIndirectNV
+        /* VK_NV_partitioned_acceleration_structure spec_version 1 */
+#define vkGetPartitionedAccelerationStructuresBuildSizesNV                  VKAD_USER_DEVICE.GetPartitionedAccelerationStructuresBuildSizesNV
+#define vkCmdBuildPartitionedAccelerationStructuresNV                       VKAD_USER_DEVICE.CmdBuildPartitionedAccelerationStructuresNV
+        /* VK_EXT_device_generated_commands spec_version 1 */
+#define vkGetGeneratedCommandsMemoryRequirementsEXT                         VKAD_USER_DEVICE.GetGeneratedCommandsMemoryRequirementsEXT
+#define vkCmdPreprocessGeneratedCommandsEXT                                 VKAD_USER_DEVICE.CmdPreprocessGeneratedCommandsEXT
+#define vkCmdExecuteGeneratedCommandsEXT                                    VKAD_USER_DEVICE.CmdExecuteGeneratedCommandsEXT
+#define vkCreateIndirectCommandsLayoutEXT                                   VKAD_USER_DEVICE.CreateIndirectCommandsLayoutEXT
+#define vkDestroyIndirectCommandsLayoutEXT                                  VKAD_USER_DEVICE.DestroyIndirectCommandsLayoutEXT
+#define vkCreateIndirectExecutionSetEXT                                     VKAD_USER_DEVICE.CreateIndirectExecutionSetEXT
+#define vkDestroyIndirectExecutionSetEXT                                    VKAD_USER_DEVICE.DestroyIndirectExecutionSetEXT
+#define vkUpdateIndirectExecutionSetPipelineEXT                             VKAD_USER_DEVICE.UpdateIndirectExecutionSetPipelineEXT
+#define vkUpdateIndirectExecutionSetShaderEXT                               VKAD_USER_DEVICE.UpdateIndirectExecutionSetShaderEXT
+        /* VK_EXT_external_memory_metal spec_version 1 */
+#define vkGetMemoryMetalHandleEXT                                           VKAD_USER_DEVICE.GetMemoryMetalHandleEXT
+#define vkGetMemoryMetalHandlePropertiesEXT                                 VKAD_USER_DEVICE.GetMemoryMetalHandlePropertiesEXT
     
 
 #endif
