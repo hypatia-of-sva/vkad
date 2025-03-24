@@ -2222,8 +2222,8 @@ static void vkadLoadDeviceFunctions  (PFN_vkGetDeviceProcAddr loader, VkDevice d
     functions[0].UpdateIndirectExecutionSetPipelineEXT                             = REINTERPRET_CAST(PFN_vkUpdateIndirectExecutionSetPipelineEXT                             , loader(device, "vkUpdateIndirectExecutionSetPipelineEXT"                         )) ;
     functions[0].UpdateIndirectExecutionSetShaderEXT                               = REINTERPRET_CAST(PFN_vkUpdateIndirectExecutionSetShaderEXT                               , loader(device, "vkUpdateIndirectExecutionSetShaderEXT"                           )) ;
     /* VK_EXT_external_memory_metal spec_version 1 */
-    functions[0.]GetMemoryMetalHandleEXT                                           = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandleEXT                                           , loader(device, "vkGetMemoryMetalHandleEXT"                                       )) ;
-    functions[0.]GetMemoryMetalHandlePropertiesEXT                                 = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandlePropertiesEXT                                 , loader(device, "vkGetMemoryMetalHandlePropertiesEXT"                             )) ;
+    functions[0].GetMemoryMetalHandleEXT                                           = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandleEXT                                           , loader(device, "vkGetMemoryMetalHandleEXT"                                       )) ;
+    functions[0].GetMemoryMetalHandlePropertiesEXT                                 = REINTERPRET_CAST(PFN_vkGetMemoryMetalHandlePropertiesEXT                                 , loader(device, "vkGetMemoryMetalHandlePropertiesEXT"                             )) ;
 }
 
 #ifndef VKAD_NO_GLOBAL_SYMBOLS
